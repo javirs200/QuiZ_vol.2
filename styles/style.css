@@ -1,3 +1,21 @@
 /*for general aplication*/
 
+/* LANDING SCREEN */
+#landing-screen > h2 {
+    text-align: center;
+    font-size: 2.5em;
+}
+
+#landing-screen > h3, input {
+    text-align: center;
+    font-size: 1.5em;
+    margin: auto;
+}
+
+#landing-screen > input {
+    font-size: 1.5em;
+    display: block;
+    margin: 40px auto;
+}
+
 /*later if some page need special funtions create separate file*/
