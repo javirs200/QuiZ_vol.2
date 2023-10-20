@@ -1,28 +1,39 @@
 /*for general aplication*/
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Work+Sans:ital,wght@0,300;1,300&display=swap');
+
+* {
+    font-family: 'Press Start 2P', cursive;
+}
+
 body {
     background-color: #8fb013;
-    color: #00303b;
+    color: #00303b;    
+    line-height: 1.5;
 }
 
 /* LANDING SCREEN */
 #landing-screen > h2 {
     text-align: center;
-    font-size: 2.5em;
+    font-size: 1.5em;
 }
 
 #landing-screen > h3 {
     text-align: center;
-    font-size: 1.5em;
     margin: auto;
+    font-size: 0.9em;
+
+
 }
 
 .pixel2 {
-    font-size: 25px;
+    font-size: 0.9em;
     color: #8fb013;
     height: auto;
     margin: 40px auto;
     font-family: 'VT323';
     border: none;
+    font-family: 'Press Start 2P';
+
     
     position: relative;
     display: block;
