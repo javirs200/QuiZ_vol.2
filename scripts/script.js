@@ -15,6 +15,24 @@ async function callApi() {
         })
         .catch((error) => console.error("Error calling to api: ", error));//si llega aqui pasa algo con la api
 }
+
+function generateQuiz(questions){
+                let section = document.querySelector("section#quiz-screen")
+                let contentHtml = "<form>"
+                for (const apiQuestion of questions.results) {
+                    let q = JSON.stringify(apiQuestion.question)
+                    contentHtml= `<fieldset class="contenedor-pregunta"><legend>${q}</legend>`
+
+                    contentHtml += `<p>${JSON.stringify(apiQuestion.correct_answer)}</p>`
+                    contentHtml += `<p>${JSON.stringify(apiQuestion.incorrect_answers[0])}</p>`
+                    contentHtml += `<p>${JSON.stringify(apiQuestion.incorrect_answers[1])}</p>` 
+                    contentHtml += `<p>${JSON.stringify(apiQuestion.incorrect_answers[1])}</p>`  
+            
+                    contentHtml += '</fieldset>'
+                    
+                }
+                contentHtml += "</form>"
+                section.innerHTML += contentHtml;
 }
 
 //---- listeners ----
