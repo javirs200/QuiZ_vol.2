@@ -1,4 +1,4 @@
-/*for general aplication*/
+/*SPA aplication all in one*/
 
 /* LANDING SCREEN */
 #landing-screen > h2 {
@@ -17,5 +17,3 @@
     display: block;
     margin: 40px auto;
 }
-
-/*later if some page need special funtions create separate file*/
