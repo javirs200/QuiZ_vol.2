@@ -1,16 +1,34 @@
 /*SPA aplication all in one*/
+//global variables
+const questionsApiUrl = "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple"
+
+let questionsBatch = {}
 
 //---- aux --------
 
-function generateQuiz() {
+async function callApi() {
     //TODO javi lamada a la api
+    return await fetch(questionsApiUrl)
+        .then(res => res.json())
+        .then((data)=>{
+            return data;
+        })
+        .catch((error) => console.error("Error calling to api: ", error));//si llega aqui pasa algo con la api
+}
 }
 
 //---- listeners ----
 
-function start() {
-    //aqui se hace una llamada a api por lo tanto conviene que esten generadas las preguntas antes de mostrarlas
-    generateQuiz()
+//funcion para pasar al quiz
+async function start() {
+
+
+    //aqui se hace una llamada a api
+    questionsBatch = await callApi()
+    generateQuiz(questionsBatch)
+
+    //operaciones visuales despues de tener las preguntas incorporadas 
+
     //oculto landing
     document.querySelector("section#landing-screen").setAttribute("hidden","")
     //muestro quiz
