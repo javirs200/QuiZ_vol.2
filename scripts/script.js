@@ -6,8 +6,10 @@ let questionsBatch = {}
 
 //---- aux --------
 
+
+//api call obtengo batch de preguntas
 async function callApi() {
-    //TODO javi lamada a la api
+    
     return await fetch(questionsApiUrl)
         .then(res => res.json())
         .then((data)=>{
@@ -16,17 +18,41 @@ async function callApi() {
         .catch((error) => console.error("Error calling to api: ", error));//si llega aqui pasa algo con la api
 }
 
+//para mezcar un array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  
+  //aleatorizar donde esta la respuecta correcta
+  function generateRandomOrderHtml(questionObjet) {
+    
+    const answers = questionObjet.incorrect_answers.slice();
+    answers.push(questionObjet.correct_answer);
+  
+    //barajea las breguntas
+    shuffleArray(answers);
+  
+    let tmpHtml = '';
+    answers.forEach(answer => {
+        tmpHtml += `<p>${JSON.stringify(answer)}</p>`;
+    });
+
+    return tmpHtml;
+  }
+
+
 function generateQuiz(questions){
                 let section = document.querySelector("section#quiz-screen")
                 let contentHtml = "<form>"
-                for (const apiQuestion of questions.results) {
+                for (const questionObjet of questions.results) {
                     let q = JSON.stringify(apiQuestion.question)
                     contentHtml= `<fieldset class="contenedor-pregunta"><legend>${q}</legend>`
-
-                    contentHtml += `<p>${JSON.stringify(apiQuestion.correct_answer)}</p>`
-                    contentHtml += `<p>${JSON.stringify(apiQuestion.incorrect_answers[0])}</p>`
-                    contentHtml += `<p>${JSON.stringify(apiQuestion.incorrect_answers[1])}</p>` 
-                    contentHtml += `<p>${JSON.stringify(apiQuestion.incorrect_answers[1])}</p>`  
+                    
+                    //necesito una funcion que asigne esas lineas en orden aleatorio
+                    contentHtml += generateRandomOrderHtml(questionObjet)
             
                     contentHtml += '</fieldset>'
                     
