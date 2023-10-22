@@ -11,6 +11,38 @@ body {
     line-height: 1.5;
 }
 
+/* NAV BAR */
+#nav-bar {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+  background-color: #00303b;
+  color: #8fb013;
+  margin: 0;
+  height: 60px;
+  justify-content: space-around;
+}
+
+#nav-bar > li {
+  padding: auto 30px;
+  margin: auto 5px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+#nav-bar > li:active {
+  top: 2px;
+}
+
+#nav-bar > li > a {
+  color: #8fb013;
+  text-decoration: none;
+  
+}
+
+
+
 /* LANDING SCREEN */
 #landing-screen > h2 {
     text-align: center;
@@ -29,7 +61,6 @@ body {
     color: #8fb013;
     height: auto;
     margin: 40px auto;
-    font-family: 'VT323';
     border: none;
     font-family: 'Press Start 2P';
 
