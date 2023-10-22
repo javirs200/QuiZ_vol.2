@@ -21,10 +21,9 @@ body {
     text-align: center;
     margin: auto;
     font-size: 0.9em;
-
-
 }
 
+/* boton pixelado */
 .pixel2 {
     font-size: 0.9em;
     color: #8fb013;
@@ -82,3 +81,5 @@ body {
   }
 
 
+
+/*later if some page need special funtions create separate file*/
