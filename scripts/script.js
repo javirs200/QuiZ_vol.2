@@ -1,4 +1,66 @@
 /*SPA aplication all in one*/
+//Autenticación
+
+// Ventana emergente al clickar en LOG IN
+let loginBtn = document.getElementById("login-btn");
+loginBtn.addEventListener("click", function() {
+    document.querySelector("#login-popup").toggleAttribute("hidden");
+})
+
+// Importar las funciones
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
+import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
+
+// Configuración de la app web
+const firebaseConfig = {
+    apiKey: "AIzaSyC8vG86WWksaPgBkjwcCdMQX39jUd7Tuy8",
+    authDomain: "quiz-volumen-2.firebaseapp.com",
+    projectId: "quiz-volumen-2",
+    storageBucket: "quiz-volumen-2.appspot.com",
+    messagingSenderId: "636391191506",
+    appId: "1:636391191506:web:a62f7f34fc9357d02d0e0b"
+  };
+
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+
+// Inicializar Auth
+const auth = getAuth();
+const user = auth.currentUser;
+// Inicializar DDBB
+const db = getFirestore(app);
+
+// Selectores
+const registerForm = document.getElementById("register-form");
+const loginForm = document.getElementById('login-form');
+
+// SignUp function
+registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const signUpEmail = document.getElementById('signup-email').value;
+    const signUpPassword = document.getElementById('signup-pass').value;
+    const signUpUser = document.getElementById('signup-user').value;
+    const usersRef = collection(db, "users");
+    try {
+        //Create auth user
+        await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+        .then((userCredential) => {
+          console.log('User registered')
+          const user = userCredential.user;
+          registerForm.reset();
+        })
+        //Create document in DB
+        await setDoc(doc(usersRef, signUpEmail), {
+          username: signUpUser,
+          email: signUpEmail
+          })
+      } catch (error) {
+        console.log('Error: ', error)
+      }
+})
+
+
 //global variables
 const questionsApiUrl = "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple"
 
@@ -106,65 +168,3 @@ window.addEventListener("load", () => {
 })
 
 
-//Autenticación
-
-// Ventana emergente al clickar en LOG IN
-let loginBtn = document.getElementById("login-btn");
-loginBtn.addEventListener("click", function() {
-    let formularioEmergente = `<section id="login-popup">
-                                <article id="register">
-                                    <form id="register-form">
-                                        <h3>REGISTRO</h3>
-
-                                        <label for="signup-email">Email: </label>
-                                        <input type="text" id="signup-email" name="signup-email" class="login-input">
-                                    
-                                        <label for="signup-user">Usuario: </label>
-                                        <input type="text" id="signup-user" name="signup-user" class="login-input">
-                                    
-                                        <label for="signup-pass">Contraseña: </label>
-                                        <input type="password" id="signup-pass" name="signup-pass" class="login-input">
-
-                                        <button type="submit" class="pixel2">Registrarse</button>
-                                    </form>
-                                </article>
-                                <article id="login">
-                                    <form id="login-form">
-                                        <h3>INICIAR SESION</h3>
-
-                                        <label for="login-email">Email: </label>
-                                        <input type="text" id="login-email" name="login-email" class="login-input">
-                                        
-                                        
-                                        <label for="login-pass">Contraseña: </label>
-                                        <input type="password" id="login-pass" name="login-pass" class="login-input">
-                                        
-                                        <button type="submit" class="pixel2">Iniciar sesión</button>
-                                    </form>
-                                </article>
-                            </section>` 
-})
-
-// Importar las funciones
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
-
-// Configuración de la app web
-const firebaseConfig = {
-    apiKey: "AIzaSyC8vG86WWksaPgBkjwcCdMQX39jUd7Tuy8",
-    authDomain: "quiz-volumen-2.firebaseapp.com",
-    projectId: "quiz-volumen-2",
-    storageBucket: "quiz-volumen-2.appspot.com",
-    messagingSenderId: "636391191506",
-    appId: "1:636391191506:web:a62f7f34fc9357d02d0e0b"
-  };
-
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-
-//Inicializar Auth
-const auth = getAuth();
-const user = auth.currentUser;
-//Inicializar DDBB
-const db = getFirestore(app);
