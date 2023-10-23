@@ -13,31 +13,31 @@ body {
 
 /* NAV BAR */
 #nav-bar {
-  display: flex;
-  list-style: none;
-  padding-left: 0;
-  background-color: #00303b;
-  color: #8fb013;
-  margin: 0;
-  height: 60px;
-  justify-content: space-around;
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    background-color: #00303b;
+    color: #8fb013;
+    margin: 0;
+    height: 60px;
+    justify-content: space-around;
 }
 
 #nav-bar > li {
-  padding: auto 30px;
-  margin: auto 5px;
-  text-align: center;
-  cursor: pointer;
-  position: relative;
+    padding: auto 30px;
+    margin: auto 5px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
 }
 
 #nav-bar > li:active {
-  top: 2px;
+    top: 2px;
 }
 
 #nav-bar > li > a {
-  color: #8fb013;
-  text-decoration: none;
+    color: #8fb013;
+    text-decoration: none;
   
 }
 
@@ -84,33 +84,100 @@ body {
   }
   
   .pixel2:active {
-    top: 2px;
+      top: 2px;
   }
   
   .pixel2::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 10px;
-    bottom: 10px;
-    left: -10px;
-    right: -10px;
-    background: #00303b;
-    z-index: -1;
+      content: "";
+      display: block;
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: -10px;
+      right: -10px;
+      background: #00303b;
+      z-index: -1;
   }
   
   .pixel2::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 4px;
-    bottom: 4px;
-    left: -6px;
-    right: -6px;
-    background: #00303b;
-    z-index: -1;
+      content: "";
+      display: block;
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: -6px;
+      right: -6px;
+      background: #00303b;
+      z-index: -1;
   }
 
+
+/* PREGUNTAS */
+.contenedor-pregunta{
+  height: auto;
+
+  margin: 30px auto;
+
+  border: none;
+
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.contenedor-pregunta label {
+  color: #8fb013;
+  height: auto;
+  margin: 40px auto;
+  border: none;
+  font-family: 'Press Start 2P';
+  text-align: center;
+
+  
+  position: relative;
+  display: block;
+    
+  cursor: pointer;
+  
+  padding: 20px 10px;
+  background: #00303b;
+  width: auto;
+
+  z-index: 2;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+  
+.contenedor-pregunta label:active {
+  top: 2px;
+}
+  
+.contenedor-pregunta label::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: -10px;
+  right: -10px;
+  background: #00303b;
+  z-index: -1;
+}
+  
+.contenedor-pregunta label::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: -6px;
+  right: -6px;
+  background: #00303b;
+  z-index: -1;
+}
 
 
 /*later if some page need special funtions create separate file*/
