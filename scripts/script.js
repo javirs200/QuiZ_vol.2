@@ -86,7 +86,7 @@ async function start() {
 window.addEventListener("load", () => {
 
     //start click
-    document.querySelector("input#quiz-start-btn")
+    document.querySelector("button.quiz-start-btn")
         .addEventListener("click", () => {
             start()
         })
