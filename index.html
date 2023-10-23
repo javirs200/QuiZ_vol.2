@@ -12,7 +12,7 @@
         <ul id="nav-bar">
             <li><a href="">HOME</a></li>
             <li><a href="">RANKINGS</a></li>
-            <li><a href="">LOG IN</a></li>
+            <li><a href="" id="login-btn">LOG IN</a></li>
         </ul>
     </nav>
     
@@ -29,6 +29,38 @@
         </section>
     </main>
 
+    <section id="login-popup">
+        <article id="register">
+            <form id="register-form">
+                <h3>REGISTRO</h3>
+
+                <label for="signup-email">Email: </label>
+                <input type="text" id="signup-email" name="signup-email" class="login-input">
+            
+                <label for="signup-user">Usuario: </label>
+                <input type="text" id="signup-user" name="signup-user" class="login-input">
+            
+                <label for="signup-pass">Contraseña: </label>
+                <input type="password" id="signup-pass" name="signup-pass" class="login-input">
+
+                <button type="submit" class="pixel2">Registrarse</button>
+            </form>
+        </article>
+        <article id="login">
+            <form id="login-form">
+                <h3>INICIAR SESION</h3>
+
+                <label for="login-email">Email: </label>
+                <input type="text" id="login-email" name="login-email" class="login-input">
+                
+                
+                <label for="login-pass">Contraseña: </label>
+                <input type="password" id="login-pass" name="login-pass" class="login-input">
+                
+                <button type="submit" class="pixel2">Iniciar sesión</button>
+            </form>
+        </article>
+    </section>
 
     <script src="./scripts/script.js"></script>
 </body>

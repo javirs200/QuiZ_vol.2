@@ -181,4 +181,32 @@ body {
 }
 
 
-/*later if some page need special funtions create separate file*/
+/* Ventana de registro/login */
+#login-popup {
+  border:#00303b solid 3px;
+
+  width: 80%;
+
+  margin: auto;
+}
+
+#register-form, #login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-input {
+  background-color: #8fb013;
+  color: #00303b;
+
+  border: #00303b 3px solid;
+
+  height: 25px;
+}
+
+.login-input:focus {
+  background-color: #b2dd16;
+
+  border: #036075;
+}

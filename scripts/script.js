@@ -104,3 +104,36 @@ window.addEventListener("load", () => {
 
 
 })
+
+
+// //Autenticación
+
+// // Ventana emergente al clickar en LOG IN
+// let loginBtn = document.getElementById("login-btn");
+// loginBtn.addEventListener("click", function() {
+    
+// })
+
+// // Importar las funciones
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+// import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
+// import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
+
+// // Configuración de la app web
+// const firebaseConfig = {
+//     apiKey: "AIzaSyC8vG86WWksaPgBkjwcCdMQX39jUd7Tuy8",
+//     authDomain: "quiz-volumen-2.firebaseapp.com",
+//     projectId: "quiz-volumen-2",
+//     storageBucket: "quiz-volumen-2.appspot.com",
+//     messagingSenderId: "636391191506",
+//     appId: "1:636391191506:web:a62f7f34fc9357d02d0e0b"
+//   };
+
+// // Inicializar Firebase
+// const app = initializeApp(firebaseConfig);
+
+// //Inicializar Auth
+// const auth = getAuth();
+// const user = auth.currentUser;
+// //Inicializar DDBB
+// const db = getFirestore(app);
