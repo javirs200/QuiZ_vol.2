@@ -44,13 +44,13 @@ function generateRandomOrderHtml(questionObjet) {
     return tmpHtml;
 }
 
-
 function generateQuiz(questions) {
     let section = document.querySelector("section#quiz-screen")
     let contentHtml = "<form>"
+
     for (const questionObjet of questions.results) {
-        let q = JSON.stringify(apiQuestion.question)
-        contentHtml = `<fieldset class="contenedor-pregunta"><legend>${q}</legend>`
+        let q = JSON.stringify(questionObjet.question)
+        contentHtml += `<fieldset class="contenedor-pregunta"><legend>${q}</legend>`
 
         //necesito una funcion que asigne esas lineas en orden aleatorio
         contentHtml += generateRandomOrderHtml(questionObjet)
