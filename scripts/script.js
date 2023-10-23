@@ -58,7 +58,7 @@ function generateQuiz(questions) {
         contentHtml += '</fieldset>'
 
     }
-    contentHtml += "<input type='submit'>"
+    contentHtml += `<input type='submit' class="pixel2">`
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 }
