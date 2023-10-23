@@ -58,19 +58,30 @@ function generateQuiz(questions) {
         contentHtml += '</fieldset>'
 
     }
+    contentHtml += "<input type='submit'>"
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 }
 
 //---- listeners ----
 
+function validateQuiz() {
+    event.preventDefault();
+    console.log(event.target);
+}
+
+function validateOne() {
+    console.log(event.target);
+}
+
 //funcion para pasar al quiz
 async function start() {
-
 
     //aqui se hace una llamada a api
     questionsBatch = await callApi()
     generateQuiz(questionsBatch)
+
+    document.querySelector("form").addEventListener('submit', validateQuiz)
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
