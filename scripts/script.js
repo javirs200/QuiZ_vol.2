@@ -37,19 +37,20 @@ function generateRandomOrderHtml(questionObjet) {
 
     let tmpHtml = '';
     answers.forEach(answer => {
-        tmpHtml += `<p>${JSON.stringify(answer)}</p>`;
+        tmpHtml += `<label for='${JSON.stringify(answer)}' onclick='validateOne()'>${JSON.stringify(answer)}</label>
+        <input type='radio' name='${JSON.stringify(answer)}' id='${JSON.stringify(answer)}' hidden></input>`;
     });
 
     return tmpHtml;
 }
 
-
 function generateQuiz(questions) {
     let section = document.querySelector("section#quiz-screen")
     let contentHtml = "<form>"
+
     for (const questionObjet of questions.results) {
-        let q = JSON.stringify(apiQuestion.question)
-        contentHtml = `<fieldset class="contenedor-pregunta"><legend>${q}</legend>`
+        let q = JSON.stringify(questionObjet.question)
+        contentHtml += `<fieldset class="contenedor-pregunta"><legend>${q}</legend>`
 
         //necesito una funcion que asigne esas lineas en orden aleatorio
         contentHtml += generateRandomOrderHtml(questionObjet)
@@ -57,19 +58,30 @@ function generateQuiz(questions) {
         contentHtml += '</fieldset>'
 
     }
+    contentHtml += "<input type='submit'>"
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 }
 
 //---- listeners ----
 
+function validateQuiz() {
+    event.preventDefault();
+    console.log(event.target);
+}
+
+function validateOne() {
+    console.log(event.target);
+}
+
 //funcion para pasar al quiz
 async function start() {
-
 
     //aqui se hace una llamada a api
     questionsBatch = await callApi()
     generateQuiz(questionsBatch)
+
+    document.querySelector("form").addEventListener('submit', validateQuiz)
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
@@ -85,7 +97,7 @@ async function start() {
 window.addEventListener("load", () => {
 
     //start click
-    document.querySelector("input#quiz-start-btn")
+    document.querySelector("button.quiz-start-btn")
         .addEventListener("click", () => {
             start()
         })
