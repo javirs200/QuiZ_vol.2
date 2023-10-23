@@ -4,8 +4,12 @@ const questionsApiUrl = "https://opentdb.com/api.php?amount=10&difficulty=easy&t
 
 let questionsBatch = {}
 
-//---- aux --------
+//for iteration between screens
+let actualQuestion = 0
 
+let miForm;
+
+//---- aux --------
 
 //api call obtengo batch de preguntas
 async function callApi() {
