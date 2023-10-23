@@ -49,6 +49,7 @@ registerForm.addEventListener('submit', async (e) => {
           console.log('User registered')
           const user = userCredential.user;
           registerForm.reset();
+          document.querySelector("#login-popup").toggleAttribute("hidden");
         })
         //Create document in DB
         await setDoc(doc(usersRef, signUpEmail), {
@@ -58,6 +59,53 @@ registerForm.addEventListener('submit', async (e) => {
       } catch (error) {
         console.log('Error: ', error)
       }
+})
+
+//Login function
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const loginEmail = document.getElementById('login-email').value;
+    const loginPassword = document.getElementById('login-pass').value;
+    //Call the collection in the DB
+    const docRef = doc(db, "users", loginEmail);
+    //Search a document that matches with our ref
+    const docSnap = await getDoc(docRef);
+  
+    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+      .then((userCredential) => {
+        console.log('User authenticated')
+        const user = userCredential.user;
+        loginForm.reset();
+        document.querySelector("#login-popup").toggleAttribute("hidden");
+      })
+      .catch((error) => {
+        document.getElementById('msgerr').innerHTML='Usuario o contraseña incorrectos';
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Código del error: ' + errorCode);
+        console.log('Mensaje del error: ' + errorMessage);
+      });
+})
+
+//Observe the user's state
+auth.onAuthStateChanged(user => {
+    if(user){
+        loginBtn.innerHTML = "LOG OUT"
+
+        //Logout function
+        loginBtn.addEventListener('click', () => {
+            signOut(auth).then(() => {
+            console.log('Logout user')
+            loginBtn.innerHTML = "LOG IN"
+
+
+            }).catch((error) => {
+            console.log('Error: ', error)
+            });
+        })
+    }else{
+      console.log('No logged user');
+    }
 })
 
 

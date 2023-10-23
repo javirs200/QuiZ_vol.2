@@ -221,3 +221,8 @@ main {
 
   border: #036075;
 }
+
+#msgerr {
+  text-align: center;
+  font-size: 0.8em;
+}
