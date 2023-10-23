@@ -4,8 +4,12 @@ const questionsApiUrl = "https://opentdb.com/api.php?amount=10&difficulty=easy&t
 
 let questionsBatch = {}
 
-//---- aux --------
+//for iteration between screens
+let actualQuestion = 0
 
+let miForm;
+
+//---- aux --------
 
 //api call obtengo batch de preguntas
 async function callApi() {
@@ -47,18 +51,18 @@ function generateRandomOrderHtml(questionObjet) {
 function generateQuiz(questions) {
     let section = document.querySelector("section#quiz-screen")
     let contentHtml = "<form>"
-
+    let cont = 0
     for (const questionObjet of questions.results) {
         let q = JSON.stringify(questionObjet.question)
-        contentHtml += `<fieldset class="contenedor-pregunta"><legend>${q}</legend>`
+        contentHtml += `<fieldset class="contenedor-pregunta" id='Q${cont}' hidden><legend>${q}</legend>`
 
         //necesito una funcion que asigne esas lineas en orden aleatorio
         contentHtml += generateRandomOrderHtml(questionObjet)
 
         contentHtml += '</fieldset>'
-
+        cont++
     }
-    contentHtml += "<input type='submit'>"
+    contentHtml += `<input type='submit' class="pixel2" hidden>`
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 }
@@ -70,8 +74,35 @@ function validateQuiz() {
     console.log(event.target);
 }
 
+
+
 function validateOne() {
     console.log(event.target);
+    console.log(questionsBatch);
+    let parentFieldset = event.target.parentElement
+    let input = event.target.nextSibling
+    let v = input.value
+    if(v){
+        parentFieldset.style.borderColor = "green"
+    }else{
+        parentFieldset.style.borderColor = "red"
+    }
+
+  setTimeout(nextQuestion,1500)
+    
+}
+
+function nextQuestion() {
+
+    console.log(actualQuestion);
+
+    document.querySelector("#Q" + actualQuestion+"").setAttribute("hidden", "")
+
+    if(actualQuestion+1 < 9){
+        document.querySelector("#Q" + (actualQuestion+1)+"").removeAttribute("hidden")
+    }
+    actualQuestion++
+
 }
 
 //funcion para pasar al quiz
@@ -81,7 +112,11 @@ async function start() {
     questionsBatch = await callApi()
     generateQuiz(questionsBatch)
 
-    document.querySelector("form").addEventListener('submit', validateQuiz)
+    miForm = document.querySelector("form")
+
+    miForm.children[0].removeAttribute("hidden")
+
+    miForm.addEventListener('submit', validateQuiz)
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
