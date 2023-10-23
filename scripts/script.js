@@ -37,7 +37,8 @@ function generateRandomOrderHtml(questionObjet) {
 
     let tmpHtml = '';
     answers.forEach(answer => {
-        tmpHtml += `<p>${JSON.stringify(answer)}</p>`;
+        tmpHtml += `<label for='${JSON.stringify(answer)}' onclick='validateOne()'>${JSON.stringify(answer)}</label>
+        <input type='radio' name='${JSON.stringify(answer)}' id='${JSON.stringify(answer)}' hidden></input>`;
     });
 
     return tmpHtml;
