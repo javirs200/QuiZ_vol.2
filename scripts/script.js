@@ -119,6 +119,8 @@ let questionsBatch = {}
 //for iteration between screens
 let actualQuestion = 0
 
+let score = 0;
+
 let miForm;
 
 //---- aux --------
@@ -153,8 +155,8 @@ function generateRandomOrderHtml(questionObjet) {
 
     let tmpHtml = '';
     answers.forEach(answer => {
-        tmpHtml += `<label for='${JSON.stringify(answer)}' onclick='validateOne()'>${JSON.stringify(answer)}</label>
-        <input type='radio' name='${JSON.stringify(answer)}' id='${JSON.stringify(answer)}' hidden></input>`;
+        tmpHtml += `<label class='answer' for='${JSON.stringify(answer)}'>${JSON.stringify(answer)}</label>
+        <input type='radio' name='${JSON.stringify(answer)}' id='${JSON.stringify(answer)}' value='${JSON.stringify(answer)}' hidden></input>`;
     });
 
     return tmpHtml;
@@ -186,32 +188,35 @@ function validateQuiz() {
     console.log(event.target);
 }
 
+function validateOne(event) {
+
+    let preguntaActual = questionsBatch.results[actualQuestion]
 
 
-function validateOne() {
-    console.log(event.target);
-    console.log(questionsBatch);
-    let parentFieldset = event.target.parentElement
-    let input = event.target.nextSibling
-    let v = input.value
-    if(v){
-        parentFieldset.style.borderColor = "green"
-    }else{
-        parentFieldset.style.borderColor = "red"
+    let v = event.target.nextSibling.nextSibling.value
+    v = v.slice(1, v.length - 1) //quitar comillas
+
+    if (v == preguntaActual.correct_answer) {
+        score++
+        event.target.style.background = "green"
+    } else {
+        event.target.style.background = "red"
     }
 
-  setTimeout(nextQuestion,1500)
-    
+    console.log("score -> ",score);
+
+    setTimeout(nextQuestion, 1500)
+
 }
 
 function nextQuestion() {
 
     console.log(actualQuestion);
 
-    document.querySelector("#Q" + actualQuestion+"").setAttribute("hidden", "")
+    document.querySelector("#Q" + actualQuestion + "").toggleAttribute("hidden");
 
-    if(actualQuestion+1 < 10){
-        document.querySelector("#Q" + (actualQuestion+1)+"").removeAttribute("hidden")
+    if (actualQuestion + 1 < 10) {
+        document.querySelector("#Q" + (actualQuestion + 1) + "").toggleAttribute("hidden");
     }
     actualQuestion++
 
@@ -222,20 +227,27 @@ async function start() {
 
     //aqui se hace una llamada a api
     questionsBatch = await callApi()
+
+    //constrimos quiz con template string
     generateQuiz(questionsBatch)
+
+    let preguntas = document.querySelectorAll("label.answer")
+    for (const p of preguntas) {
+        p.addEventListener("click", (event) => { validateOne(event) })
+    }
 
     miForm = document.querySelector("form")
 
-    miForm.children[0].removeAttribute("hidden")
+    document.querySelector("#Q0").toggleAttribute("hidden");
 
     miForm.addEventListener('submit', validateQuiz)
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
     //oculto landing
-    document.querySelector("section#landing-screen").setAttribute("hidden", "")
+    document.querySelector("section#landing-screen").toggleAttribute("hidden")
     //muestro quiz
-    document.querySelector("section#quiz-screen").removeAttribute("hidden")
+    document.querySelector("section#quiz-screen").toggleAttribute("hidden")
 
 }
 
