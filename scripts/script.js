@@ -37,6 +37,10 @@ const db = getFirestore(app);
 const registerForm = document.getElementById("register-form");
 const loginForm = document.getElementById('login-form');
 const errMsg = document.querySelectorAll('.msgerr');
+const errMsgPass = document.querySelector('.msgerr-pass');
+const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+
 // SignUp function
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -44,24 +48,37 @@ registerForm.addEventListener('submit', async (e) => {
     const signUpPassword = document.getElementById('signup-pass').value;
     const signUpUser = document.getElementById('signup-user').value;
     const usersRef = collection(db, "users");
+
+    // Validacion con Regex
+    if (!emailRegex.test(signUpEmail)) {
+        errMsg[0].style.display = "block";
+        errMsg[0].innerHTML = 'Email inválido';
+    } else if (!passRegex.test(signUpPassword)) {
+        errMsgPass.style.display = "block";
+        errMsgPass.innerHTML = "La contraseña debe contener 8 carácteres, minúscula y mayúscula, números y un caracter especial.";
+    } else {
+
     try {
         //Create auth user
         await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
-        .then((userCredential) => {
+        .then((userCredential) => { 
           console.log('User registered')
           const user = userCredential.user;
           registerForm.reset();
           document.querySelector("#login-popup").toggleAttribute("hidden");
-        })
+         })
         //Create document in DB
         await setDoc(doc(usersRef, signUpEmail), {
           username: signUpUser,
           email: signUpEmail
           })
       } catch (error) {
-        errMsg[0].innerHTML='Email inválido';
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Código del error: ' + errorCode);
+        console.log('Mensaje del error: ' + errorMessage);
       }
-})
+}})
 
 //Login function
 loginForm.addEventListener('submit', async (e) => {

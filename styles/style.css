@@ -222,7 +222,8 @@ main {
   border: #036075;
 }
 
-.msgerr {
+.msgerr, .msgerr-pass {
   text-align: center;
   font-size: 0.8em;
+  display: none;
 }
