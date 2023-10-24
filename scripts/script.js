@@ -4,7 +4,9 @@
 // Ventana emergente al clickar en LOG IN
 let loginBtn = document.getElementById("login-btn");
 loginBtn.addEventListener("click", function() {
-    document.querySelector("#login-popup").toggleAttribute("hidden");
+    if (loginBtn.innerHTML == "LOG IN") {
+        document.querySelector("#login-popup").toggleAttribute("hidden");
+    }
 })
 
 // Importar las funciones
@@ -34,7 +36,7 @@ const db = getFirestore(app);
 // Selectores
 const registerForm = document.getElementById("register-form");
 const loginForm = document.getElementById('login-form');
-
+const errMsg = document.querySelectorAll('.msgerr');
 // SignUp function
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -57,7 +59,7 @@ registerForm.addEventListener('submit', async (e) => {
           email: signUpEmail
           })
       } catch (error) {
-        console.log('Error: ', error)
+        errMsg[0].innerHTML='Email inválido';
       }
 })
 
@@ -79,7 +81,7 @@ loginForm.addEventListener('submit', async (e) => {
         document.querySelector("#login-popup").toggleAttribute("hidden");
       })
       .catch((error) => {
-        document.getElementById('msgerr').innerHTML='Usuario o contraseña incorrectos';
+        errMsg[1].innerHTML='Usuario o contraseña incorrectos';
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Código del error: ' + errorCode);
