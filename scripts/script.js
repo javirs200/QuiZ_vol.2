@@ -1,4 +1,114 @@
 /*SPA aplication all in one*/
+//Autenticación
+
+// Ventana emergente al clickar en LOG IN
+let loginBtn = document.getElementById("login-btn");
+loginBtn.addEventListener("click", function() {
+    document.querySelector("#login-popup").toggleAttribute("hidden");
+})
+
+// Importar las funciones
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
+import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
+
+// Configuración de la app web
+const firebaseConfig = {
+    apiKey: "AIzaSyC8vG86WWksaPgBkjwcCdMQX39jUd7Tuy8",
+    authDomain: "quiz-volumen-2.firebaseapp.com",
+    projectId: "quiz-volumen-2",
+    storageBucket: "quiz-volumen-2.appspot.com",
+    messagingSenderId: "636391191506",
+    appId: "1:636391191506:web:a62f7f34fc9357d02d0e0b"
+  };
+
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+
+// Inicializar Auth
+const auth = getAuth();
+const user = auth.currentUser;
+// Inicializar DDBB
+const db = getFirestore(app);
+
+// Selectores
+const registerForm = document.getElementById("register-form");
+const loginForm = document.getElementById('login-form');
+
+// SignUp function
+registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const signUpEmail = document.getElementById('signup-email').value;
+    const signUpPassword = document.getElementById('signup-pass').value;
+    const signUpUser = document.getElementById('signup-user').value;
+    const usersRef = collection(db, "users");
+    try {
+        //Create auth user
+        await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+        .then((userCredential) => {
+          console.log('User registered')
+          const user = userCredential.user;
+          registerForm.reset();
+          document.querySelector("#login-popup").toggleAttribute("hidden");
+        })
+        //Create document in DB
+        await setDoc(doc(usersRef, signUpEmail), {
+          username: signUpUser,
+          email: signUpEmail
+          })
+      } catch (error) {
+        console.log('Error: ', error)
+      }
+})
+
+//Login function
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const loginEmail = document.getElementById('login-email').value;
+    const loginPassword = document.getElementById('login-pass').value;
+    //Call the collection in the DB
+    const docRef = doc(db, "users", loginEmail);
+    //Search a document that matches with our ref
+    const docSnap = await getDoc(docRef);
+  
+    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+      .then((userCredential) => {
+        console.log('User authenticated')
+        const user = userCredential.user;
+        loginForm.reset();
+        document.querySelector("#login-popup").toggleAttribute("hidden");
+      })
+      .catch((error) => {
+        document.getElementById('msgerr').innerHTML='Usuario o contraseña incorrectos';
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Código del error: ' + errorCode);
+        console.log('Mensaje del error: ' + errorMessage);
+      });
+})
+
+//Observe the user's state
+auth.onAuthStateChanged(user => {
+    if(user){
+        loginBtn.innerHTML = "LOG OUT"
+
+        //Logout function
+        loginBtn.addEventListener('click', () => {
+            signOut(auth).then(() => {
+            console.log('Logout user')
+            loginBtn.innerHTML = "LOG IN"
+
+
+            }).catch((error) => {
+            console.log('Error: ', error)
+            });
+        })
+    }else{
+      console.log('No logged user');
+    }
+})
+
+
 //global variables
 const questionsApiUrl = "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple"
 
@@ -139,3 +249,5 @@ window.addEventListener("load", () => {
 
 
 })
+
+

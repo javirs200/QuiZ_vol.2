@@ -11,6 +11,10 @@ body {
     line-height: 1.5;
 }
 
+main {
+  position: relative;
+}
+
 /* NAV BAR */
 #nav-bar {
     display: flex;
@@ -46,13 +50,13 @@ body {
 /* LANDING SCREEN */
 #landing-screen > h2 {
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.7em;
 }
 
-#landing-screen > h3 {
+#landing-screen > p {
     text-align: center;
     margin: auto;
-    font-size: 0.9em;
+    font-size: 1.1em;
 }
 
 /* boton pixelado */
@@ -74,7 +78,7 @@ body {
     background: #00303b;
     width: auto;
 
-    z-index: 2;
+    z-index: 0;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -181,4 +185,44 @@ body {
 }
 
 
-/*later if some page need special funtions create separate file*/
+/* Ventana de registro/login */
+#login-popup {
+  background-color: #8fb013;
+  border:#00303b solid 3px;
+
+  width: 80%;
+
+  position: absolute;
+  top: 2px;
+  left: 10%;
+  opacity: 1;
+
+  z-index: 1;
+}
+
+#register-form, #login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-input {
+  background-color: #8fb013;
+  color: #00303b;
+
+  border: #00303b 3px solid;
+
+  height: 25px;
+  width: 80%;
+}
+
+.login-input:focus {
+  background-color: #b2dd16;
+
+  border: #036075;
+}
+
+#msgerr {
+  text-align: center;
+  font-size: 0.8em;
+}
