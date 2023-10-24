@@ -98,7 +98,7 @@ function nextQuestion() {
 
     document.querySelector("#Q" + actualQuestion+"").setAttribute("hidden", "")
 
-    if(actualQuestion+1 < 9){
+    if(actualQuestion+1 < 10){
         document.querySelector("#Q" + (actualQuestion+1)+"").removeAttribute("hidden")
     }
     actualQuestion++
