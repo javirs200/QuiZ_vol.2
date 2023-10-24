@@ -193,14 +193,14 @@ function generateQuiz(questions) {
         contentHtml += '</fieldset>'
         cont++
     }
-    contentHtml += `<input type='submit' class="pixel2" hidden>`
+    contentHtml += `<input id="submitAnswers" type='submit' class="pixel2"></input>`
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 }
 
 //---- listeners ----
 
-function validateQuiz() {
+function validateQuiz(event) {
     event.preventDefault();
     console.log(event.target);
 }
@@ -228,14 +228,15 @@ function validateOne(event) {
 
 function nextQuestion() {
 
-    console.log(actualQuestion);
-
-    document.querySelector("#Q" + actualQuestion + "").toggleAttribute("hidden");
-
     if (actualQuestion + 1 < 10) {
+        document.querySelector("#Q" + actualQuestion + "").toggleAttribute("hidden");
         document.querySelector("#Q" + (actualQuestion + 1) + "").toggleAttribute("hidden");
+        actualQuestion++
     }
-    actualQuestion++
+
+    if (actualQuestion + 1 == 10){
+        document.querySelector("input#submitAnswers").style.display = "block"
+    }
 
 }
 
@@ -255,9 +256,13 @@ async function start() {
 
     miForm = document.querySelector("form")
 
+    document.querySelector("input#submitAnswers").style.display = "none"
+
     document.querySelector("#Q0").toggleAttribute("hidden");
 
-    miForm.addEventListener('submit', validateQuiz)
+    console.log(actualQuestion + 1);
+
+    miForm.addEventListener('submit', (event) => validateQuiz(event) )
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
