@@ -40,6 +40,7 @@ const errMsg = document.querySelectorAll('.msgerr');
 const errMsgPass = document.querySelector('.msgerr-pass');
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+const submitBtn = document.querySelector("input#submitAnswers");
 
 // SignUp function
 registerForm.addEventListener('submit', async (e) => {
@@ -179,9 +180,11 @@ function generateRandomOrderHtml(questionObjet) {
     return tmpHtml;
 }
 
+
+
 function generateQuiz(questions) {
     let section = document.querySelector("section#quiz-screen")
-    let contentHtml = "<form>"
+    let contentHtml = `<form id="quizform">`
     let cont = 0
     for (const questionObjet of questions.results) {
         let q = JSON.stringify(questionObjet.question)
@@ -193,12 +196,13 @@ function generateQuiz(questions) {
         contentHtml += '</fieldset>'
         cont++
     }
-    contentHtml += `<input id="submitAnswers" type='submit' class="pixel2"></input>`
+    contentHtml += `<input id="submitAnswers" type='submit' class="pixel2" "></input>`
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 }
 
-//---- listeners ----
+// Validación de quiz - Almacenar score en Firestore
+// submitBtn.addEventListener("submit", validateQuiz)
 
 function validateQuiz(event) {
     event.preventDefault();
@@ -236,6 +240,8 @@ function nextQuestion() {
 
     if (actualQuestion + 1 == 10){
         document.querySelector("input#submitAnswers").style.display = "block"
+        document.querySelector("#quizform").addEventListener("submit", validateQuiz)
+        
     }
 
 }
@@ -254,15 +260,13 @@ async function start() {
         p.addEventListener("click", (event) => { validateOne(event) })
     }
 
-    miForm = document.querySelector("form")
+    // miForm = document.querySelector("form")    Este selector estaba targeteando el formulario de contacto
 
     document.querySelector("input#submitAnswers").style.display = "none"
 
     document.querySelector("#Q0").toggleAttribute("hidden");
 
     console.log(actualQuestion + 1);
-
-    miForm.addEventListener('submit', (event) => validateQuiz(event) )
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
