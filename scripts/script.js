@@ -138,22 +138,21 @@ const questionsApiUrl = "https://opentdb.com/api.php?amount=10&difficulty=easy&t
 let questionsBatch = {}
 
 //for iteration between screens
-let actualQuestion = 0
+let actualQuestion = 0;
+
+let validated = -1; 
 
 let score = 0;
-
-let miForm = null;
 
 //---- aux --------
 
 function reset() {
-    console.log("reset call");
-    //TODO anotate global variables that need reset on simulate reload or go home
+    
     questionsBatch = {};
     score = 0;
     //used to folow the status
     actualQuestion = 0;
-    miForm = null;
+    validated = -1;
 
     //reset view to home hide all windows and popups except home
     let allScreensPopups = document.querySelectorAll('[id$="-screen"],[id$="-popup"]')
@@ -257,20 +256,40 @@ function validateQuiz(event) {
 
 function validateOne(event) {
 
-    let preguntaActual = questionsBatch.results[actualQuestion]
+    if(validated < actualQuestion){
 
+        let preguntaActual = questionsBatch.results[actualQuestion]
 
-    let v = event.target.nextSibling.nextSibling.value
-    v = v.slice(1, v.length - 1) //quitar comillas
+        let v = event.target.nextSibling.nextSibling.value
+        v = v.slice(1, v.length - 1) //quitar comillas
 
-    if (v == preguntaActual.correct_answer) {
-        score++
-        event.target.style.background = "green"
-    } else {
-        event.target.style.background = "red"
+        let labelActual = event.target
+        let labelCoorrecta = labelActual.parentElement
+                                .querySelector(`[id*='${preguntaActual.correct_answer}']`)
+                                .previousSibling.previousSibling
+
+        // #43f343 -> verde fosforito
+        let verde = '#43f343'
+        let rojo = "#ff0000"
+        if (v == preguntaActual.correct_answer) {
+            score++
+            labelActual.style.background = verde
+            labelActual.style.color = verde
+        } else {
+            labelActual.style.background = rojo
+            labelActual.style.color = rojo
+
+            labelCoorrecta.style.background = verde
+            labelCoorrecta.style.color = verde
+        }
+
+        validated = actualQuestion
+
+        setTimeout(nextQuestion, 1500)
+
     }
 
-    setTimeout(nextQuestion, 1500)
+    
 
 }
 
@@ -302,13 +321,11 @@ async function start() {
         p.addEventListener("click", (event) => { validateOne(event) })
     }
 
-    // miForm = document.querySelector("form")    Este selector estaba targeteando el formulario de contacto
+    //operaciones visuales despues de tener las preguntas incorporadas 
 
     document.querySelector("input#submitAnswers").style.display = "none"
 
     document.querySelector("#Q0").toggleAttribute("hidden");
-
-    //operaciones visuales despues de tener las preguntas incorporadas 
 
     //oculto landing
     document.querySelector("section#landing-screen").toggleAttribute("hidden")
