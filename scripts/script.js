@@ -269,8 +269,6 @@ function validateOne(event) {
         event.target.style.background = "red"
     }
 
-    console.log("score -> ",score);
-
     setTimeout(nextQuestion, 1500)
 
 }
@@ -308,8 +306,6 @@ async function start() {
     document.querySelector("input#submitAnswers").style.display = "none"
 
     document.querySelector("#Q0").toggleAttribute("hidden");
-
-    console.log(actualQuestion + 1);
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
