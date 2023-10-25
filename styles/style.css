@@ -295,6 +295,12 @@ th, td {
   cursor: pointer;
 }
 
+.ct-series-a .ct-bar{
+  /* Set the colour of this series line */
+  stroke: #00303b;
+  /* Control the thikness of your lines */
+  stroke-width: 5%;
+}
 
 /* MEDIA QUERIES */
 
