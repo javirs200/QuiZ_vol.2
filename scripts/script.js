@@ -142,9 +142,27 @@ let actualQuestion = 0
 
 let score = 0;
 
-let miForm;
+let miForm = null;
 
 //---- aux --------
+
+function reset() {
+    console.log("reset call");
+    //TODO anotate global variables that need reset on simulate reload or go home
+    questionsBatch = {};
+    score = 0;
+    //used to folow the status
+    actualQuestion = 0;
+    miForm = null;
+
+    //reset view to home hide all windows and popups except home
+    let allScreensPopups = document.querySelectorAll('[id$="-screen"],[id$="-popup"]')
+    for (const el of allScreensPopups) {
+        el.setAttribute("hidden","")
+    }
+    document.querySelector("section#landing-screen").removeAttribute("hidden")
+
+}
 
 //api call obtengo batch de preguntas
 async function callApi() {
@@ -308,6 +326,11 @@ window.addEventListener("load", () => {
     document.querySelector("button.quiz-start-btn")
         .addEventListener("click", () => {
             start()
+        })
+
+    document.querySelector("#home-btn")
+        .addEventListener("click", () => {
+            reset()
         })
 
 
