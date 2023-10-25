@@ -154,6 +154,9 @@ function reset() {
     actualQuestion = 0;
     validated = -1;
 
+    //delete previous quiz
+    document.querySelector("section#quiz-screen").innerHTML= ""
+
     //reset view to home hide all windows and popups except home
     let allScreensPopups = document.querySelectorAll('[id$="-screen"],[id$="-popup"]')
     for (const el of allScreensPopups) {
@@ -365,7 +368,7 @@ async function generarRanking() {
                     <th>SCORE</th>`;
     // Pintar username y score
     querySnapshot.forEach((doc) => {
-        console.log(doc.data().username, doc.data().score);
+        //console.log(doc.data().username, doc.data().score);
         tabla += `<tr>
                     <td>${doc.data().username}</td>
                     <td>...${doc.data().score}</td>
@@ -384,6 +387,31 @@ async function generarRanking() {
 
 }
 
+async function aniadirChart() {
 
-document.getElementById("ranking-btn").addEventListener("click", generarRanking)
+    // Pedir los datos a la database
+    const q = query(collection(db, "users"));
+    const querySnapshot = await getDocs(q);
+
+    let chartlist = '<div class="ct-chart ct-perfect-fourth"></div>';
+    document.querySelector("section#ranking-screen").innerHTML += chartlist;
+
+    //colect data for charlist
+    let charlistData = {labels:[],series:[[]]}
+
+    let options = {axisX: {showLabel: false} , axisY: {onlyInteger: true}}
+
+    querySnapshot.forEach((doc) => {
+        charlistData.labels.push(doc.data().username)
+        charlistData.series[0].push(doc.data().score)
+      });
+
+    new Chartist.Bar('.ct-chart', charlistData,options);
+}
+
+
+document.getElementById("ranking-btn").addEventListener("click", ()=>{
+    generarRanking()
+    aniadirChart()
+})
 
