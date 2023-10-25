@@ -225,6 +225,13 @@ function validateQuiz(event) {
           console.log('No logged user');
         }
     })
+
+    // Pintar pantalla de resultados
+    document.getElementById("results-screen").toggleAttribute("hidden");
+    document.getElementById("results-screen").innerHTML = `<h3>Tu puntuación final es...</h3>
+                                                        <h3 id="score"> ${score} / 10</h3>
+                                                        <button class="pixel2 btn-resultados">Ver rankings</button>
+                                                        <button class="pixel2 btn-resultados">Intentar de nuevo</button>`
 }
 
 function validateOne(event) {
