@@ -12,7 +12,7 @@ loginBtn.addEventListener("click", function() {
 // Importar las funciones
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
+import { getFirestore, collection, query, where, doc, getDoc, getDocs, orderBy, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
 // Configuración de la app web
 const firebaseConfig = {
@@ -313,4 +313,33 @@ window.addEventListener("load", () => {
 
 })
 
+// Generación de rankings
+document.getElementById("ranking-btn").addEventListener("click", async function() {
+
+    // Pedir los datos a la database
+    const q = query(collection(db, "users"), orderBy("score", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    //Inicializar tabla
+    let tabla = `<h3>RANKINGS</h3>
+                <table>
+                <tr>
+                    <th>USERNAME</th>
+                    <th>SCORE</th>`;
+    // Pintar username y score
+    querySnapshot.forEach((doc) => {
+        console.log(doc.data().username, doc.data().score);
+        tabla += `<tr>
+                    <td>${doc.data().username}</td>
+                    <td>...${doc.data().score}</td>
+                </tr>` 
+      });
+
+      tabla += `    </tr>
+                </table>`;
+
+    //  Mostrar el ranking
+    document.querySelector("section#ranking-screen").innerHTML = tabla;
+    document.querySelector("section#ranking-screen").toggleAttribute("hidden");
+})
 
