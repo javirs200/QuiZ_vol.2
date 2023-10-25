@@ -428,7 +428,7 @@ async function aniadirChart() {
     new Chartist.Bar('.ct-chart', charlistData,options);
     
     // Cerrar gráfica
-    document.querySelectorAll("#cerrar-barras").addEventListener("click", function(){
+    document.querySelector("#cerrar-barras").addEventListener("click", function(){
         document.querySelector("#barchart-screen").toggleAttribute("hidden");
     })
 }
