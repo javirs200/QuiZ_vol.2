@@ -40,14 +40,18 @@ const errMsg = document.querySelectorAll('.msgerr');
 const errMsgPass = document.querySelector('.msgerr-pass');
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+const submitBtn = document.querySelector("input#submitAnswers");
 
 // SignUp function
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const signUpEmail = document.getElementById('signup-email').value;
     const signUpPassword = document.getElementById('signup-pass').value;
     const signUpUser = document.getElementById('signup-user').value;
     const usersRef = collection(db, "users");
+    console.log(signUpEmail);
+    console.log(signUpPassword);
 
     // Validacion con Regex
     if (!emailRegex.test(signUpEmail)) {
@@ -58,38 +62,35 @@ registerForm.addEventListener('submit', async (e) => {
         errMsgPass.innerHTML = "La contraseña debe contener 8 carácteres, minúscula y mayúscula, números y un caracter especial.";
     } else {
 
-    try {
-        //Create auth user
-        await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
-        .then((userCredential) => { 
-          console.log('User registered')
-          const user = userCredential.user;
-          registerForm.reset();
-          document.querySelector("#login-popup").toggleAttribute("hidden");
-         })
-        //Create document in DB
-        await setDoc(doc(usersRef, signUpEmail), {
-          username: signUpUser,
-          email: signUpEmail
-          })
-      } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('Código del error: ' + errorCode);
-        console.log('Mensaje del error: ' + errorMessage);
-      }
+        try {
+            //Create auth user
+            await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+            .then((userCredential) => { 
+            console.log('User registered')
+            const user = userCredential.user;
+            registerForm.reset();
+            document.querySelector("#login-popup").toggleAttribute("hidden");
+            })
+            //Create document in DB
+            await setDoc(doc(usersRef, signUpEmail), {
+            username: signUpUser,
+            email: signUpEmail
+            })
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log('Código del error: ' + errorCode);
+            console.log('Mensaje del error: ' + errorMessage);
+        }
 }})
 
 //Login function
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const loginEmail = document.getElementById('login-email').value;
     const loginPassword = document.getElementById('login-pass').value;
-    //Call the collection in the DB
-    const docRef = doc(db, "users", loginEmail);
-    //Search a document that matches with our ref
-    const docSnap = await getDoc(docRef);
-  
+    
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
       .then((userCredential) => {
         console.log('User authenticated')
@@ -98,11 +99,14 @@ loginForm.addEventListener('submit', async (e) => {
         document.querySelector("#login-popup").toggleAttribute("hidden");
       })
       .catch((error) => {
+          
+        errMsg[1].style.display = "block";
         errMsg[1].innerHTML='Usuario o contraseña incorrectos';
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log('Código del error: ' + errorCode);
         console.log('Mensaje del error: ' + errorMessage);
+
       });
 })
 
@@ -110,7 +114,7 @@ loginForm.addEventListener('submit', async (e) => {
 auth.onAuthStateChanged(user => {
     if(user){
         loginBtn.innerHTML = "LOG OUT"
-
+        console.log(auth.currentUser.email)
         //Logout function
         loginBtn.addEventListener('click', () => {
             signOut(auth).then(() => {
@@ -179,9 +183,11 @@ function generateRandomOrderHtml(questionObjet) {
     return tmpHtml;
 }
 
+
+
 function generateQuiz(questions) {
     let section = document.querySelector("section#quiz-screen")
-    let contentHtml = "<form>"
+    let contentHtml = `<form id="quizform">`
     let cont = 0
     for (const questionObjet of questions.results) {
         let q = JSON.stringify(questionObjet.question)
@@ -193,16 +199,32 @@ function generateQuiz(questions) {
         contentHtml += '</fieldset>'
         cont++
     }
-    contentHtml += `<input id="submitAnswers" type='submit' class="pixel2"></input>`
+    contentHtml += `<input id="submitAnswers" type='submit' class="pixel2" "></input>`
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 }
 
-//---- listeners ----
+// Validación de quiz - Almacenar score en Firestore
+// submitBtn.addEventListener("submit", validateQuiz)
 
 function validateQuiz(event) {
     event.preventDefault();
     console.log(event.target);
+    
+    //Guardar score en db si hay usuario logado
+    auth.onAuthStateChanged(async user => {
+        if(user){
+            console.log(auth.currentUser.email);
+            console.log("user autenticado, quiz validado");
+            console.log("Tu score final es: " +score);
+            await updateDoc(doc(db, "users", auth.currentUser.email), {
+                score: score
+            });
+         
+        }else{
+          console.log('No logged user');
+        }
+    })
 }
 
 function validateOne(event) {
@@ -236,9 +258,9 @@ function nextQuestion() {
 
     if (actualQuestion + 1 == 10){
         document.querySelector("input#submitAnswers").style.display = "block"
-    }
-
-}
+        document.querySelector("#quizform").addEventListener("submit", validateQuiz)
+        }
+ }
 
 //funcion para pasar al quiz
 async function start() {
@@ -254,15 +276,13 @@ async function start() {
         p.addEventListener("click", (event) => { validateOne(event) })
     }
 
-    miForm = document.querySelector("form")
+    // miForm = document.querySelector("form")    Este selector estaba targeteando el formulario de contacto
 
     document.querySelector("input#submitAnswers").style.display = "none"
 
     document.querySelector("#Q0").toggleAttribute("hidden");
 
     console.log(actualQuestion + 1);
-
-    miForm.addEventListener('submit', (event) => validateQuiz(event) )
 
     //operaciones visuales despues de tener las preguntas incorporadas 
 
