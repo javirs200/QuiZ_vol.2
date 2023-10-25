@@ -142,9 +142,27 @@ let actualQuestion = 0
 
 let score = 0;
 
-let miForm;
+let miForm = null;
 
 //---- aux --------
+
+function reset() {
+    console.log("reset call");
+    //TODO anotate global variables that need reset on simulate reload or go home
+    questionsBatch = {};
+    score = 0;
+    //used to folow the status
+    actualQuestion = 0;
+    miForm = null;
+
+    //reset view to home hide all windows and popups except home
+    let allScreensPopups = document.querySelectorAll('[id$="-screen"],[id$="-popup"]')
+    for (const el of allScreensPopups) {
+        el.setAttribute("hidden","")
+    }
+    document.querySelector("section#landing-screen").removeAttribute("hidden")
+
+}
 
 //api call obtengo batch de preguntas
 async function callApi() {
@@ -230,8 +248,10 @@ function validateQuiz(event) {
     document.getElementById("results-screen").toggleAttribute("hidden");
     document.getElementById("results-screen").innerHTML = `<h3>Tu puntuación final es...</h3>
                                                         <h3 id="score"> ${score} / 10</h3>
-                                                        <button class="pixel2 btn-resultados">Ver rankings</button>
-                                                        <button class="pixel2 btn-resultados">Intentar de nuevo</button>`
+                                                        <button id="myRanking-btn" class="pixel2 btn-resultados">Ver rankings</button>
+                                                        <button id="retry-btn" class="pixel2 btn-resultados">Intentar de nuevo</button>`
+
+    document.getElementById("retry-btn").addEventListener("click",reset)
 }
 
 function validateOne(event) {
@@ -248,8 +268,6 @@ function validateOne(event) {
     } else {
         event.target.style.background = "red"
     }
-
-    console.log("score -> ",score);
 
     setTimeout(nextQuestion, 1500)
 
@@ -289,8 +307,6 @@ async function start() {
 
     document.querySelector("#Q0").toggleAttribute("hidden");
 
-    console.log(actualQuestion + 1);
-
     //operaciones visuales despues de tener las preguntas incorporadas 
 
     //oculto landing
@@ -306,9 +322,10 @@ window.addEventListener("load", () => {
 
     //start click
     document.querySelector("button.quiz-start-btn")
-        .addEventListener("click", () => {
-            start()
-        })
+        .addEventListener("click", start)
+
+    document.querySelector("#home-btn")
+        .addEventListener("click", reset)
 
 
 })
