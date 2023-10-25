@@ -4,12 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El quiz único</title>
-    <link rel="stylesheet" href="style.css">
+    <!--charlist import-->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <!--our styles-->
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
+
 <body>
     
+    <nav>
+        <ul id="nav-bar">
+            <li><a href="#" id="home-btn">HOME</a></li>
+            <li><a href="#" id="ranking-btn">RANKINGS</a></li>
+            <li><a href="#" id="login-btn">LOG IN</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section id="landing-screen">
+            <h2>¡Bienvenidos al 102938º quiz de cultura general en todo el internet!</h2>
+            <p>¿Sabes más del mundo que la persona a tu lado? Compruébalo en solo 10 preguntas. <br>No olvides iniciar sesión para guardar tu puntuación</p>
+            <button class="quiz-start-btn pixel2">¡Comienza el quiz!</button>
+        </section>
 
+        <section id="login-popup" hidden>
+            <article id="register">
+                <form id="register-form">
+                    <h3>REGISTRO</h3>
 
-    <script src="script.js"></script>
+                    <label for="signup-email">Email: </label>
+                    <input type="text" id="signup-email" name="signup-email" class="login-input">
+                    <p class="msgerr"></p>
+                    
+                
+                    <label for="signup-user">Usuario: </label>
+                    <input type="text" id="signup-user" name="signup-user" class="login-input">
+                
+                    <label for="signup-pass">Contraseña: </label>
+                    <input type="password" id="signup-pass" name="signup-pass" class="login-input">
+                    <p class="msgerr-pass"><p>
+                        
+                    <button type="submit" class="pixel2">Registrarse</button>
+                </form>
+            </article>
+            <article id="login">
+                <form id="login-form">
+                    <h3>INICIAR SESION</h3>
+
+                    <label for="login-email">Email: </label>
+                    <input type="text" id="login-email" name="login-email" class="login-input">
+                    
+                    
+                    <label for="login-pass">Contraseña: </label>
+                    <input type="password" id="login-pass" name="login-pass" class="login-input">
+                    
+                    <p class="msgerr"></p>
+                    <button type="submit" class="pixel2">Iniciar sesión</button>
+                </form>
+            </article>
+        </section>
+
+        <section id="quiz-screen" hidden>
+        </section>
+
+        <section id="results-screen" hidden>
+        </section>
+
+        <section id="ranking-screen" hidden>
+        </section>
+
+        <section id="barchart-screen" hidden>
+            <p id="cerrar-barras" class="cerrar-ventana">X</p>   
+        </section>
+    </main>
+
+    <!--our js-->
+    <script src="./scripts/script.js" type="module"></script>
+
 </body>
 </html>
+

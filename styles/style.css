@@ -1,3 +1,520 @@
 /*for general aplication*/
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Work+Sans:ital,wght@0,300;1,300&display=swap');
 
-/*later if some page need special funtions create separate file*/
+* {
+    font-family: 'Press Start 2P', cursive;
+}
+
+body {
+    background-color: #8fb013;
+    color: #00303b;    
+    line-height: 1.5;
+}
+
+main {
+  position: relative;
+}
+
+/* NAV BAR */
+#nav-bar {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    background-color: #00303b;
+    color: #8fb013;
+    margin: 0;
+    height: 60px;
+    justify-content: space-around;
+}
+
+#nav-bar > li {
+    padding: auto 30px;
+    margin: auto 5px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+#nav-bar > li:active {
+    top: 2px;
+}
+
+#nav-bar > li > a {
+    color: #8fb013;
+    text-decoration: none;
+  
+}
+
+
+
+/* LANDING SCREEN */
+#landing-screen > h2 {
+    text-align: center;
+    font-size: 1.7em;
+}
+
+#landing-screen > p {
+    text-align: center;
+    margin: auto;
+    font-size: 1.1em;
+}
+
+/* boton pixelado */
+.pixel2 {
+    font-size: 0.9em;
+    color: #8fb013;
+    height: auto;
+    margin: 40px auto;
+    border: none;
+    font-family: 'Press Start 2P';
+
+    
+    position: relative;
+    display: block;
+     
+    cursor: pointer;
+    
+    padding: 10px 10px;
+    background: #00303b;
+    width: auto;
+
+    z-index: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .pixel2:active {
+      top: 2px;
+  }
+  
+  .pixel2::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: -10px;
+      right: -10px;
+      background: #00303b;
+      z-index: -1;
+  }
+  
+  .pixel2::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: -6px;
+      right: -6px;
+      background: #00303b;
+      z-index: -1;
+  }
+
+
+/* PREGUNTAS */
+.contenedor-pregunta{
+  height: auto;
+
+  margin: 30px auto;
+
+  border: none;
+
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.contenedor-pregunta label {
+  color: #8fb013;
+  height: auto;
+  margin: 40px auto;
+  border: none;
+  font-family: 'Press Start 2P';
+  font-size: 0.8em;
+  text-align: center;
+
+  
+  position: relative;
+  display: block;
+    
+  cursor: pointer;
+  
+  padding: 20px 10px;
+  background: #00303b;
+  width: auto;
+
+  z-index: 2;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+  
+.contenedor-pregunta label:active {
+  top: 2px;
+}
+  
+.contenedor-pregunta label::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: -10px;
+  right: -10px;
+  background: #00303b;
+  z-index: -1;
+}
+  
+.contenedor-pregunta label::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: -6px;
+  right: -6px;
+  background: #00303b;
+  z-index: -1;
+}
+
+
+/* Ventana de registro/login */
+#login-popup {
+  background-color: #8fb013;
+  border:#00303b solid 3px;
+
+  width: 80%;
+
+  position: absolute;
+  top: 2px;
+  left: 10%;
+
+  z-index: 10;
+}
+
+#register-form, #login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-input {
+  background-color: #8fb013;
+  color: #00303b;
+
+  border: #00303b 3px solid;
+
+  height: 25px;
+  width: 80%;
+}
+
+.login-input:focus {
+  background-color: #b2dd16;
+
+  border: #036075;
+}
+
+.msgerr, .msgerr-pass {
+  text-align: center;
+  font-size: 0.8em;
+  display: none;
+}
+
+
+/* PANTALLA DE PUNTUACIÓN */
+
+#results-screen {
+  background-color: #8fb013;
+  border: #00303b 3px solid;
+
+  width: 80%;
+  padding: 20px;
+  box-sizing: border-box;
+
+  position: absolute;
+  top: 2px;
+  left: 10%;
+
+  z-index: 10;
+
+  text-align: center;
+  font-size: 1.3em;
+  
+}
+
+.btn-resultados {
+  font-size: 1rem;
+  width: 50%;
+}
+
+/* RANKING */
+#ranking-screen {
+  background-color: #8fb013;
+  border: #00303b 3px solid;
+
+  width: 90%;
+
+  position: absolute;
+  top: 2px;
+  /* left: 10%; */
+
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+
+  z-index: 10;
+
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 1em;
+}
+
+table {
+  margin: auto;
+}
+
+th, td {
+  padding: 10px;
+}
+
+.cerrar-ventana {
+  position: absolute;
+  margin-top: 0;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  z-index: 50;
+}
+
+
+/* BARCHART SCREEN */
+.ct-series-a .ct-bar{
+  /* Set the colour of this series line */
+  stroke: #00303b;
+  /* Control the thikness of your lines */
+  stroke-width: 5%;
+}
+
+#barchart-screen {
+  border: #00303b 3px solid;
+  background-color: #8fb013;
+
+  width: 95%;
+
+  position: absolute;
+  top: 2px;
+  /* left: 10%; */
+
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+
+  z-index: 10;
+}
+
+
+
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 480px) {
+/* landing screen */
+#landing-screen > h2 {
+  font-size: 2em;
+}
+
+#landing-screen > p {
+  font-size: 1.4em;
+}
+
+.pixel2 {
+  font-size: 1.4em;
+}
+
+/* Preguntas */
+.contenedor-pregunta{
+  font-size: 1.5em;
+  max-width: 600px;
+}
+
+/* Ranking */
+#ranking-screen {
+  font-size: 1.4em;
+}
+
+/* Pantalla de puntuación */
+
+#results-screen {
+  font-size: 1.5em;
+  
+}
+
+.btn-resultados {
+  font-size: 1.5rem;
+  max-width: 300px;
+}
+}
+
+
+@media screen and (min-width: 770px) {
+/* landing screen */
+#landing-screen {
+  margin: auto 40px;
+}
+
+#landing-screen > h2 {
+  font-size: 2.5em;
+}
+
+#landing-screen > p {
+  font-size: 1.4em;
+}
+
+.pixel2 {
+  font-size: 1.4em;
+}
+
+  
+/* Preguntas */
+legend{
+  margin-bottom: 50px;
+}  
+.contenedor-pregunta{
+  font-size: 1.8em;
+  max-width: 800px;
+  height: 80vh;
+}
+
+.contenedor-pregunta label {
+  width: 35%;
+  margin: 40px;
+  display: inline-block;
+  height: auto;
+}
+
+/* Ranking */
+#ranking-screen {
+  font-size: 1.7em;
+  z-index: 10;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px; 
+  width: 650px; /* Need a specific value to work */
+}
+
+/* Ventana de registro/login */
+#login-popup {
+
+  z-index: 10;
+  position: absolute;
+  top: -30px; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 20px; 
+  width: 500px; /* Need a specific value to work */
+  font-size: 1.2em;
+  
+}
+
+#register-form > p:nth-child(10) > button,
+#login-form > button {
+  font-size: 1em;
+}
+
+/* Pantalla de puntuación */
+
+#results-screen {
+  font-size: 1.8em;
+  z-index: 10;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px; 
+  width: 600px; /* Need a specific value to work */
+}
+
+.btn-resultados {
+  font-size: 1.5rem;
+  max-width: 300px;
+}
+
+}
+
+@media screen and (min-width: 1025px) {
+ /* landing screen */
+#landing-screen {
+  margin: 50px 40px;
+}
+
+#landing-screen > h2 {
+  font-size: 2.5em;
+  margin-bottom: 100px;
+}
+
+#landing-screen > p {
+  font-size: 1.6em;
+  margin-bottom: 100px;
+}
+
+.pixel2 {
+  font-size: 1.6em;
+}
+
+/* Preguntas */
+legend{
+  margin-bottom: 50px;
+}  
+.contenedor-pregunta{
+  font-size: 2.3em;
+  max-width: 1200px;
+}
+
+.contenedor-pregunta label {
+  width: 35%;
+  margin: 40px;
+  display: inline-block;
+  height: auto;
+}
+
+/* Pantalla de puntuación */
+
+#results-screen {
+  font-size: 1.8em;
+  z-index: 10;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px; 
+  width: 600px; /* Need a specific value to work */
+}
+
+.btn-resultados {
+  font-size: 1.5rem;
+  max-width: 300px;
+}
+
+/* RANKINGS */
+#mostrar-grafica {
+  font-size: 1.1em;
+}
+}
