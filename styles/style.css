@@ -6,13 +6,22 @@
 }
 
 body {
-    background-color: #8fb013;
+    background-color: #525252;
     color: #00303b;    
     line-height: 1.5;
 }
 
 main {
   position: relative;
+}
+
+div#container{
+  background-color: #8fb013;
+  padding : 10px;
+  border : solid 20px gray;
+  border-radius: 25px;
+  border-bottom-right-radius: 60px;
+
 }
 
 /* NAV BAR */
