@@ -251,7 +251,7 @@ main {
 
 .btn-resultados {
   font-size: 1rem;
-  width: 210px;
+  width: 50%;
 }
 
 /* RANKING */
@@ -259,18 +259,24 @@ main {
   background-color: #8fb013;
   border: #00303b 3px solid;
 
-  width: 80%;
+  width: auto;
+  width: 90%;
 
   position: absolute;
   top: 2px;
-  left: 10%;
+  /* left: 10%; */
+
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
 
   z-index: 10;
 
   flex-direction: column;
   align-items: center;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 table {
@@ -279,4 +285,202 @@ table {
 
 th, td {
   padding: 10px;
+}
+
+#cerrar-ventana {
+  position: absolute;
+  margin-top: 0;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 480px) {
+/* landing screen */
+#landing-screen > h2 {
+  font-size: 2em;
+}
+
+#landing-screen > p {
+  font-size: 1.4em;
+}
+
+.pixel2 {
+  font-size: 1.4em;
+}
+
+/* Preguntas */
+.contenedor-pregunta{
+  font-size: 1.5em;
+  max-width: 600px;
+}
+
+/* Ranking */
+#ranking-screen {
+  font-size: 1.4em;
+}
+
+/* Pantalla de puntuación */
+
+#results-screen {
+  font-size: 1.5em;
+  
+}
+
+.btn-resultados {
+  font-size: 1.5rem;
+  max-width: 300px;
+}
+}
+
+
+@media screen and (min-width: 770px) {
+/* landing screen */
+#landing-screen {
+  margin: auto 40px;
+}
+
+#landing-screen > h2 {
+  font-size: 2.5em;
+}
+
+#landing-screen > p {
+  font-size: 1.4em;
+}
+
+.pixel2 {
+  font-size: 1.4em;
+}
+
+  
+/* Preguntas */
+legend{
+  margin-bottom: 50px;
+}  
+.contenedor-pregunta{
+  font-size: 1.8em;
+  max-width: 800px;
+  height: 80vh;
+}
+
+.contenedor-pregunta label {
+  width: 35%;
+  margin: 40px;
+  display: inline-block;
+  height: auto;
+}
+
+/* Ranking */
+#ranking-screen {
+  font-size: 1.7em;
+  z-index: 10;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px; 
+  width: 650px; /* Need a specific value to work */
+}
+
+/* Ventana de registro/login */
+#login-popup {
+
+  z-index: 10;
+  position: absolute;
+  top: -30px; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 20px; 
+  width: 500px; /* Need a specific value to work */
+  font-size: 1.2em;
+  
+}
+
+#register-form > p:nth-child(10) > button,
+#login-form > button {
+  font-size: 1em;
+}
+
+/* Pantalla de puntuación */
+
+#results-screen {
+  font-size: 1.8em;
+  z-index: 10;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px; 
+  width: 600px; /* Need a specific value to work */
+}
+
+.btn-resultados {
+  font-size: 1.5rem;
+  max-width: 300px;
+}
+
+}
+
+@media screen and (min-width: 1025px) {
+ /* landing screen */
+#landing-screen {
+  margin: 50px 40px;
+}
+
+#landing-screen > h2 {
+  font-size: 2.5em;
+  margin-bottom: 100px;
+}
+
+#landing-screen > p {
+  font-size: 1.6em;
+  margin-bottom: 100px;
+}
+
+.pixel2 {
+  font-size: 1.6em;
+}
+
+/* Preguntas */
+legend{
+  margin-bottom: 50px;
+}  
+.contenedor-pregunta{
+  font-size: 2.3em;
+  max-width: 1200px;
+}
+
+.contenedor-pregunta label {
+  width: 35%;
+  margin: 40px;
+  display: inline-block;
+  height: auto;
+}
+
+/* Pantalla de puntuación */
+
+#results-screen {
+  font-size: 1.8em;
+  z-index: 10;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px; 
+  width: 600px; /* Need a specific value to work */
+}
+
+.btn-resultados {
+  font-size: 1.5rem;
+  max-width: 300px;
+}
 }
