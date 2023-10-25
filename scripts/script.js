@@ -322,14 +322,10 @@ window.addEventListener("load", () => {
 
     //start click
     document.querySelector("button.quiz-start-btn")
-        .addEventListener("click", () => {
-            start()
-        })
+        .addEventListener("click", start)
 
     document.querySelector("#home-btn")
-        .addEventListener("click", () => {
-            reset()
-        })
+        .addEventListener("click", reset)
 
 
 })
