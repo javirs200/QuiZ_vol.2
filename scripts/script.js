@@ -232,6 +232,8 @@ function validateQuiz(event) {
                                                         <h3 id="score"> ${score} / 10</h3>
                                                         <button class="pixel2 btn-resultados">Ver rankings</button>
                                                         <button class="pixel2 btn-resultados">Intentar de nuevo</button>`
+
+    document.querySelectorAll(".btn-resultados")[0].addEventListener("click", generarRanking)
 }
 
 function validateOne(event) {
@@ -313,8 +315,9 @@ window.addEventListener("load", () => {
 
 })
 
-// Generación de rankings
-document.getElementById("ranking-btn").addEventListener("click", async function() {
+// Funcion de generacion de rankings
+
+async function generarRanking() {
 
     // Pedir los datos a la database
     const q = query(collection(db, "users"), orderBy("score", "desc"));
@@ -341,5 +344,8 @@ document.getElementById("ranking-btn").addEventListener("click", async function(
     //  Mostrar el ranking
     document.querySelector("section#ranking-screen").innerHTML = tabla;
     document.querySelector("section#ranking-screen").toggleAttribute("hidden");
-})
+}
+
+
+document.getElementById("ranking-btn").addEventListener("click", generarRanking)
 
