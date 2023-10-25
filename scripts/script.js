@@ -248,8 +248,10 @@ function validateQuiz(event) {
     document.getElementById("results-screen").toggleAttribute("hidden");
     document.getElementById("results-screen").innerHTML = `<h3>Tu puntuación final es...</h3>
                                                         <h3 id="score"> ${score} / 10</h3>
-                                                        <button class="pixel2 btn-resultados">Ver rankings</button>
-                                                        <button class="pixel2 btn-resultados">Intentar de nuevo</button>`
+                                                        <button id="myRanking-btn" class="pixel2 btn-resultados">Ver rankings</button>
+                                                        <button id="retry-btn" class="pixel2 btn-resultados">Intentar de nuevo</button>`
+
+    document.getElementById("retry-btn").addEventListener("click",reset)
 }
 
 function validateOne(event) {
