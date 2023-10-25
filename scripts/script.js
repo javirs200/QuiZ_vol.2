@@ -360,7 +360,7 @@ async function generarRanking() {
     const querySnapshot = await getDocs(q);
 
     //Inicializar tabla
-    let tabla = `<p id="cerrar-ventana">X</p hidden>
+    let tabla = `<p class="cerrar-ventana">X</p>
                 <h3>RANKINGS</h3>
                 <table>
                 <tr>
@@ -376,30 +376,49 @@ async function generarRanking() {
       });
 
       tabla += `    </tr>
-                </table>`;
+                </table>
+                <button id="mostrar-grafica" class="pixel2">Ver gráfica</button>`;
 
     //  Mostrar el ranking
     document.querySelector("section#ranking-screen").innerHTML = tabla;
     document.querySelector("section#ranking-screen").toggleAttribute("hidden");
-    document.getElementById("cerrar-ventana").addEventListener("click", function(){
+
+    //Cerrar ranking
+    document.querySelectorAll(".cerrar-ventana")[0].addEventListener("click", function(){
         document.querySelector("section#ranking-screen").toggleAttribute("hidden");
     })
 
+    // Mostrar la gráfica
+    document.getElementById("mostrar-grafica").addEventListener("click", function(){
+        aniadirChart();
+        document.getElementById("barchart-screen").toggleAttribute("hidden");
+    })
 }
+
+
 
 async function aniadirChart() {
 
     // Pedir los datos a la database
-    const q = query(collection(db, "users"));
+    const q = query(collection(db, "users"), orderBy("score"));
     const querySnapshot = await getDocs(q);
 
     let chartlist = '<div class="ct-chart ct-perfect-fourth"></div>';
-    document.querySelector("section#ranking-screen").innerHTML += chartlist;
+    document.querySelector("section#barchart-screen").innerHTML += chartlist;
 
-    //colect data for charlist
+    // collect data for chartist
     let charlistData = {labels:[],series:[[]]}
 
-    let options = {axisX: {showLabel: false} , axisY: {onlyInteger: true}}
+    let options = {
+        axisX: {
+            showLabel: true,
+            labelInterpolationFnc: function(value) {
+                return value.slice(0,3);
+              }
+        }, 
+        axisY: {
+            onlyInteger: true
+        }}
 
     querySnapshot.forEach((doc) => {
         charlistData.labels.push(doc.data().username)
@@ -407,11 +426,16 @@ async function aniadirChart() {
       });
 
     new Chartist.Bar('.ct-chart', charlistData,options);
+    
+    // Cerrar gráfica
+    document.querySelectorAll("#cerrar-barras").addEventListener("click", function(){
+        document.querySelector("#barchart-screen").toggleAttribute("hidden");
+    })
 }
 
 
 document.getElementById("ranking-btn").addEventListener("click", ()=>{
     generarRanking()
-    aniadirChart()
+    // aniadirChart()
 })
 
