@@ -357,7 +357,8 @@ async function generarRanking() {
     const querySnapshot = await getDocs(q);
 
     //Inicializar tabla
-    let tabla = `<h3>RANKINGS</h3>
+    let tabla = `<p id="cerrar-ventana">X</p hidden>
+                <h3>RANKINGS</h3>
                 <table>
                 <tr>
                     <th>USERNAME</th>
@@ -377,6 +378,10 @@ async function generarRanking() {
     //  Mostrar el ranking
     document.querySelector("section#ranking-screen").innerHTML = tabla;
     document.querySelector("section#ranking-screen").toggleAttribute("hidden");
+    document.getElementById("cerrar-ventana").addEventListener("click", function(){
+        document.querySelector("section#ranking-screen").toggleAttribute("hidden");
+    })
+
 }
 
 
