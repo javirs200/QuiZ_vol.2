@@ -1,7 +1,7 @@
 # :question: Bienvenidos al Quiz de Cultura General :question: #
 
 En este quiz podrás comprobar cuanto sabes sobre el mundo que te rodea, con 10 preguntas sobre distintos ámbitos seleccionadas de manera completamente aleatoria. ¿Quieres jugar?
-### :arrow_right: [Haz click aquí](https://javirs200.github.io/QuiZ_vol.2/# "El quiz supremo") :arrow_left: ###
+### :arrow_right: [Haz click aquí para jugar](https://javirs200.github.io/QuiZ_vol.2/# "El quiz supremo") :arrow_left: ###
 
 ## :hammer_and_wrench: Herramientas usadas :hammer_and_wrench: ##
 
