@@ -8,26 +8,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase
 import { getFirestore, collection, query, where, doc, getDoc, getDocs, orderBy, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
 // Configuración de la app web 
-// const firebaseConfig = {
-//     apiKey: "AIzaSyDKZ2_jFSY1zp4en-k9kuTNyOJbT_w9YoM",
-//     authDomain: "japanquiz-9f25a.firebaseapp.com",
-//     projectId: "japanquiz-9f25a",
-//     storageBucket: "japanquiz-9f25a.appspot.com",
-//     messagingSenderId: "251926133409",
-//     appId: "1:251926133409:web:b61118a8c9a130d4df0ee0"
-// }; 
-// leer variables de entorno de github pages enviroment
 const firebaseConfig = {
-    apiKey: env.apiKey,
-    authDomain: env.authDomain,
-    projectId: env.projectId,
-    storageBucket: env.storageBucket,
-    messagingSenderId: env.messagingSenderId,
-    appId: env.appId
-}
-
-console.log(env);
-
+    apiKey: "AIzaSyDKZ2_jFSY1zp4en-k9kuTNyOJbT_w9YoM",
+    authDomain: "japanquiz-9f25a.firebaseapp.com",
+    projectId: "japanquiz-9f25a",
+    storageBucket: "japanquiz-9f25a.appspot.com",
+    messagingSenderId: "251926133409",
+    appId: "1:251926133409:web:b61118a8c9a130d4df0ee0"
+};
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
