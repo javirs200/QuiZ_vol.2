@@ -5,7 +5,7 @@ const parser = new DOMParser()
 // Importar las funciones
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
 // import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
-import { getFirestore, collection, query, where, doc, getDoc, getDocs, orderBy, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
+import { getFirestore, collection, query, where, doc, addDoc, getDoc, getDocs, orderBy, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
 // Configuración de la app web 
 const firebaseConfig = {
@@ -34,7 +34,7 @@ const submitBtn = document.querySelector("input#submitAnswers");
 const spinnerContainer = document.getElementById('spinnerContainer');
 
 //global variables
-let numQuestions = 10;
+const numQuestions = 10;
 const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=31&difficulty=easy&type=multiple`
 
 let questionsBatch = {}
@@ -54,24 +54,31 @@ async function sendAndReset(event) {
     // datos para enviar
     let data = { nick: nick, score: score }
     // console.log("datos para enviar -> ",data);
-    
+
 
     // Comprobar si el usuario ya existe
-    const userRef = doc(db, "users", nick);
-    const docSnap = await getDoc(userRef);
 
-    if (docSnap.exists()) { 
+    const q = query(collection(db, "users"), where("nick", "==", nick));
+
+    const querySnapshot = await getDocs(q);
+
+    // console.log(querySnapshot);
+
+    if (!querySnapshot.empty) {
         // Actualizar el score si ya existe
-        await updateDoc(userRef, {
-            score: score
-        }).then(() => {alert("Score actualizado")});
-    }
-    else {
+        querySnapshot.forEach((doc) => {
+            // console.log(doc.id, " => ", doc.data());
+            if (score > doc.data().score) {
+                updateDoc(doc.ref, {
+                    score: score
+                }).then(() => { alert("Score actualizado") });
+            } else {
+                alert("Tu score no ha sido suficiente para superar tu record anterior");
+            }
+        });
+    } else {
         // Crear un nuevo usuario si no existe
-        await setDoc(userRef, {
-            nick: nick,
-            score: score
-        }).then(() => {alert("Usuario creado")});
+        await addDoc(collection(db, "users"), data).then(() => { alert("Usuario creado") });
     }
 
     reset()
@@ -114,29 +121,30 @@ async function translateQuestions(questionObjet) {
 
     let q = questionObjet.question
     let a = questionObjet.correct_answer
-    let i = questionObjet.incorrect_answers.slice().reduce((acc, curr , i) => {
-        if(i<2){
+    let i = questionObjet.incorrect_answers.slice().reduce((acc, curr, i) => {
+        if (i < 2) {
             return acc + curr + "|"
-        }else{
+        } else {
             return acc + curr
-        }}, "")
+        }
+    }, "")
 
     let all = q + "|" + a + "|" + i
 
     let parsed = parser.parseFromString(all, "text/html").body.textContent
 
     // console.log(parsed);
-    
+
     // llamada a la api de traduccion
     let url = `https://api.mymemory.translated.net/get?q=${parsed}&langpair=en|es&de=rafikex125@esterace.com`
     let res = await fetch(url)
     await res.json().then(data => {
-        
+
         // volver a guardar las preguntas traducidas en el objeto
         let array = data.responseData.translatedText.split("|")
 
         // console.log(array);
-        
+
         if (array.length != 5) {
             console.log("Error en la traduccion")
             console.log(array)
@@ -218,11 +226,11 @@ function validateQuiz(event) {
                     <p class="msgerr"></p>
                     <button type="submit" class="pixel2">Enviar</button>
                     </form>`
-    
+
     // Pintar pantalla de resultados
     document.getElementById("results-screen").toggleAttribute("hidden");
     document.getElementById("results-screen").innerHTML = contentHtml
-                                                    
+
     document.getElementById("resultForm").addEventListener("submit", sendAndReset);
 }
 
@@ -235,24 +243,30 @@ function validateOne(event) {
         let v = event.target.nextSibling.nextSibling.value
 
         let labelActual = event.target
-        let labelCoorrecta = labelActual.parentElement
+        try {
+            let labelCoorrecta = labelActual.parentElement
                 .querySelector(`[id*="${preguntaActual.correct_answer}"]`)
                 .previousSibling.previousSibling
 
-            
-        // #43f343 -> verde fosforito
-        let verde = '#43f343'
-        let rojo = "#ff0000"
-        if (v == preguntaActual.correct_answer) {
-            score++
+            // #43f343 -> verde fosforito
+            let verde = '#43f343'
+            let rojo = "#ff0000"
+            if (v == preguntaActual.correct_answer) {
+                score++
+                labelActual.style.background = verde
+                labelActual.style.color = verde
+            } else {
+                labelActual.style.background = rojo
+                labelActual.style.color = rojo
+
+                labelCoorrecta.style.background = verde
+                labelCoorrecta.style.color = verde
+            }
+        } catch (error) {
             labelActual.style.background = verde
             labelActual.style.color = verde
-        } else {
-            labelActual.style.background = rojo
-            labelActual.style.color = rojo
-
-            labelCoorrecta.style.background = verde
-            labelCoorrecta.style.color = verde
+            alert("Error en la validacion , Pregunta dada por correcta")
+            score++
         }
 
         validated = actualQuestion
@@ -260,9 +274,9 @@ function validateOne(event) {
         setTimeout(nextQuestion, 1500)
 
     }
-    
+
     if (actualQuestion + 1 == numQuestions) {
-        document.querySelector("input#submitAnswers").style.display = "block"  
+        document.querySelector("input#submitAnswers").style.display = "block"
     }
 
 }
