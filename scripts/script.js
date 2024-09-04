@@ -32,10 +32,20 @@ const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 const submitBtn = document.querySelector("input#submitAnswers");
 const spinnerContainer = document.getElementById('spinnerContainer');
+const loadingTips = document.getElementById('loadingTips');
 
 //global variables
 const numQuestions = 10;
 const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=31&difficulty=easy&type=multiple`
+
+const loadingMessages = ["Cargando preguntas...",
+    "Traduciendo preguntas...",
+    "Cargando interfaz...",
+    "Limpiando Registro...",
+    "Matando Demonios...",
+    "Cargando efectos Espaciales...",
+    "Arrancando Central Nucelar...",
+    "Cargando..."];
 
 let questionsBatch = {}
 
@@ -136,26 +146,29 @@ async function translateQuestions(questionObjet) {
     // console.log(parsed);
 
     // llamada a la api de traduccion
-    let url = `https://api.mymemory.translated.net/get?q=${parsed}&langpair=en|es&de=rafikex125@esterace.com`
-    let res = await fetch(url)
-    await res.json().then(data => {
+    let url = `https://api.mymemory.translated.net/get?q=${parsed}&langpair=en|es&de=fordrsmax@gmail.com`
+    try {
+        let res = await fetch(url)
+        await res.json().then(data => {
 
-        // volver a guardar las preguntas traducidas en el objeto
-        let array = data.responseData.translatedText.split("|")
+            // volver a guardar las preguntas traducidas en el objeto
+            let array = data.responseData.translatedText.split("|")
 
-        // console.log(array);
+            // console.log(array);
 
-        if (array.length != 5) {
-            console.log("Error en la traduccion")
-            console.log(array)
-        } else {
-            questionObjet.question = array[0]
-            questionObjet.correct_answer = array[1]
-            questionObjet.incorrect_answers = [array[2], array[3], array[4]]
-            // console.log(questionObjet)
-        }
+            if (array.length != 5) {
+                console.log("Error en la traduccion")
+            } else {
+                questionObjet.question = array[0]
+                questionObjet.correct_answer = array[1]
+                questionObjet.incorrect_answers = [array[2], array[3], array[4]]
+                // console.log(questionObjet)
+            }
 
-    })
+        })
+    } catch (error) {
+        console.log("Error en la traduccion")
+    }
 }
 
 //para mezcar un array
@@ -295,6 +308,12 @@ function nextQuestion() {
 async function start() {
 
     spinnerContainer.style.display = 'block';
+
+    //loading tips
+    var loadTimer = setInterval(function () {
+        let randomIndex = Math.floor(Math.random() * loadingMessages.length)
+        loadingTips.innerHTML = loadingMessages[randomIndex]
+    }, 500);
 
     //aqui se hace una llamada a api
     questionsBatch = await callApi()
