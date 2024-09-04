@@ -34,7 +34,7 @@ const submitBtn = document.querySelector("input#submitAnswers");
 const spinnerContainer = document.getElementById('spinnerContainer');
 
 //global variables
-let numQuestions = 2;
+let numQuestions = 10;
 const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=31&difficulty=easy&type=multiple`
 
 let questionsBatch = {}
@@ -53,7 +53,7 @@ async function sendAndReset(event) {
     let nick = event.target.querySelector("input#nick").value
     // datos para enviar
     let data = { nick: nick, score: score }
-    console.log("datos para enviar -> ",data);
+    // console.log("datos para enviar -> ",data);
     
 
     // Comprobar si el usuario ya existe
@@ -64,14 +64,14 @@ async function sendAndReset(event) {
         // Actualizar el score si ya existe
         await updateDoc(userRef, {
             score: score
-        });
+        }).then(() => {alert("Score actualizado")});
     }
     else {
         // Crear un nuevo usuario si no existe
         await setDoc(userRef, {
             nick: nick,
             score: score
-        });
+        }).then(() => {alert("Usuario creado")});
     }
 
     reset()
@@ -330,7 +330,7 @@ async function generarRanking() {
     const q = query(collection(db, "users"), orderBy("score", "desc"));
     const querySnapshot = await getDocs(q);
 
-    console.log(querySnapshot)
+    // console.log(querySnapshot)
 
     //Inicializar tabla
     let tabla = `<p class="cerrar-ventana">X</p>
