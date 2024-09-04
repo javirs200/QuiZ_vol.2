@@ -2,37 +2,29 @@
 
 const parser = new DOMParser()
 
-//Autenticación
-
-// Ventana emergente al clickar en LOG IN
-let loginBtn = document.getElementById("login-btn");
-loginBtn.addEventListener("click", function () {
-    if (loginBtn.innerHTML == "LOG IN") {
-        document.querySelector("#login-popup").toggleAttribute("hidden");
-    }
-})
-
 // Importar las funciones
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
+// import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
 import { getFirestore, collection, query, where, doc, getDoc, getDocs, orderBy, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
-// Configuración de la app web
-const firebaseConfig = {
-    apiKey: "AIzaSyC8vG86WWksaPgBkjwcCdMQX39jUd7Tuy8",
-    authDomain: "quiz-volumen-2.firebaseapp.com",
-    projectId: "quiz-volumen-2",
-    storageBucket: "quiz-volumen-2.appspot.com",
-    messagingSenderId: "636391191506",
-    appId: "1:636391191506:web:a62f7f34fc9357d02d0e0b"
-};
+// Configuración de la app web 
+// const firebaseConfig = {
+//     apiKey: "AIzaSyDKZ2_jFSY1zp4en-k9kuTNyOJbT_w9YoM",
+//     authDomain: "japanquiz-9f25a.firebaseapp.com",
+//     projectId: "japanquiz-9f25a",
+//     storageBucket: "japanquiz-9f25a.appspot.com",
+//     messagingSenderId: "251926133409",
+//     appId: "1:251926133409:web:b61118a8c9a130d4df0ee0"
+// }; 
+// cambiar en un por leer el env de github pages
+let env = await fetch('./env.json')
+
+console.log(env);
+
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
-// Inicializar Auth
-const auth = getAuth();
-const user = auth.currentUser;
 // Inicializar DDBB
 const db = getFirestore(app);
 
@@ -46,102 +38,8 @@ const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}
 const submitBtn = document.querySelector("input#submitAnswers");
 const spinnerContainer = document.getElementById('spinnerContainer');
 
-// SignUp function
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const signUpEmail = document.getElementById('signup-email').value;
-    const signUpPassword = document.getElementById('signup-pass').value;
-    const signUpUser = document.getElementById('signup-user').value;
-    const usersRef = collection(db, "users");
-    console.log(signUpEmail);
-    console.log(signUpPassword);
-
-    // Show spinnerContainer
-    spinnerContainer.style.display = 'block';
-
-    // Validacion con Regex
-    if (!emailRegex.test(signUpEmail)) {
-        errMsg[0].style.display = "block";
-        errMsg[0].innerHTML = 'Email inválido';
-    } else if (!passRegex.test(signUpPassword)) {
-        errMsgPass.style.display = "block";
-        errMsgPass.innerHTML = "La contraseña debe contener 8 carácteres, minúscula y mayúscula, números y un caracter especial.";
-    } else {
-
-        try {
-            //Create auth user
-            await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
-                .then((userCredential) => {
-                    console.log('User registered')
-                    const user = userCredential.user;
-                    registerForm.reset();
-                    document.querySelector("#login-popup").toggleAttribute("hidden");
-                })
-            //Create document in DB
-            await setDoc(doc(usersRef, signUpEmail), {
-                username: signUpUser,
-                email: signUpEmail
-            })
-        } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log('Código del error: ' + errorCode);
-            console.log('Mensaje del error: ' + errorMessage);
-        }
-    }
-})
-
-//Login function
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const loginEmail = document.getElementById('login-email').value;
-    const loginPassword = document.getElementById('login-pass').value;
-
-    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-        .then((userCredential) => {
-            console.log('User authenticated')
-            const user = userCredential.user;
-            loginForm.reset();
-            document.querySelector("#login-popup").toggleAttribute("hidden");
-        })
-        .catch((error) => {
-
-            errMsg[1].style.display = "block";
-            errMsg[1].innerHTML = 'Usuario o contraseña incorrectos';
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log('Código del error: ' + errorCode);
-            console.log('Mensaje del error: ' + errorMessage);
-
-        });
-})
-
-//Observe the user's state
-auth.onAuthStateChanged(user => {
-    if (user) {
-        loginBtn.innerHTML = "LOG OUT"
-        console.log(auth.currentUser.email)
-        //Logout function
-        loginBtn.addEventListener('click', () => {
-            signOut(auth).then(() => {
-                console.log('Logout user')
-                loginBtn.innerHTML = "LOG IN"
-
-
-            }).catch((error) => {
-                console.log('Error: ', error)
-            });
-        })
-    } else {
-        console.log('No logged user');
-    }
-})
-
-
 //global variables
-let numQuestions = 10;
+let numQuestions = 2;
 const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=31&difficulty=easy&type=multiple`
 
 let questionsBatch = {}
@@ -154,6 +52,35 @@ let validated = -1;
 let score = 0;
 
 //---- aux --------
+
+async function sendAndReset(event) {
+    event.preventDefault();
+    let nick = event.target.querySelector("input#nick").value
+    // datos para enviar
+    let data = { nick: nick, score: score }
+    console.log("datos para enviar -> ",data);
+    
+
+    // Comprobar si el usuario ya existe
+    const userRef = doc(db, "users", nick);
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists()) { 
+        // Actualizar el score si ya existe
+        await updateDoc(userRef, {
+            score: score
+        });
+    }
+    else {
+        // Crear un nuevo usuario si no existe
+        await setDoc(userRef, {
+            nick: nick,
+            score: score
+        });
+    }
+
+    reset()
+}
 
 function reset() {
 
@@ -271,9 +198,11 @@ async function generateQuiz(questions) {
         contentHtml += '</fieldset>'
         cont++
     }
-    contentHtml += `<input id="submitAnswers" type='submit' class="pixel2" "></input>`
+    contentHtml += `<input id='submitAnswers' type='submit' class='pixel2' value='Enviar y Ver Resultados'></input>`
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
+
+    document.querySelector("#quizform").addEventListener("submit", validateQuiz)
 }
 
 // Validación de quiz - Almacenar score en Firestore
@@ -281,32 +210,25 @@ async function generateQuiz(questions) {
 
 function validateQuiz(event) {
     event.preventDefault();
-    console.log(event.target);
+    // console.log(event.target);
 
-    //Guardar score en db si hay usuario logado
-    auth.onAuthStateChanged(async user => {
-        if (user) {
-            console.log(auth.currentUser.email);
-            console.log("user autenticado, quiz validado");
-            console.log("Tu score final es: " + score);
-            await updateDoc(doc(db, "users", auth.currentUser.email), {
-                score: score
-            });
+    // pedir el nickname para asignar el score
+    let contentHtml = `<form id="resultForm">`
 
-        } else {
-            console.log('No logged user');
-        }
-    })
-
+    contentHtml += `<h3>Tu puntuación final es...</h3>
+                    <h3 id="score"> ${score} / 10</h3>
+                    <label for="nick">Introduce tu nickname:</label>
+                    <input type="text" id="nick" name="nick" class="login-input" required>
+                    <p class="msg"></p>      
+                    <p class="msgerr"></p>
+                    <button type="submit" class="pixel2">Enviar</button>
+                    </form>`
+    
     // Pintar pantalla de resultados
     document.getElementById("results-screen").toggleAttribute("hidden");
-    document.getElementById("results-screen").innerHTML = `<h3>Tu puntuación final es...</h3>
-                                                        <h3 id="score"> ${score} / 10</h3>
-                                                        <button id="myRanking-btn" class="pixel2 btn-resultados">Ver rankings</button>
-                                                        <button id="retry-btn" class="pixel2 btn-resultados">Intentar de nuevo</button>`
-
-    document.querySelectorAll(".btn-resultados")[0].addEventListener("click", generarRanking)
-    document.getElementById("retry-btn").addEventListener("click", reset)
+    document.getElementById("results-screen").innerHTML = contentHtml
+                                                    
+    document.getElementById("resultForm").addEventListener("submit", sendAndReset);
 }
 
 function validateOne(event) {
@@ -316,13 +238,13 @@ function validateOne(event) {
         let preguntaActual = questionsBatch.results[actualQuestion]
 
         let v = event.target.nextSibling.nextSibling.value
-        v = v.slice(1, v.length - 1) //quitar comillas
 
         let labelActual = event.target
         let labelCoorrecta = labelActual.parentElement
-            .querySelector(`[id*="${preguntaActual.correct_answer}"]`)
-            .previousSibling.previousSibling
+                .querySelector(`[id*="${preguntaActual.correct_answer}"]`)
+                .previousSibling.previousSibling
 
+            
         // #43f343 -> verde fosforito
         let verde = '#43f343'
         let rojo = "#ff0000"
@@ -343,21 +265,21 @@ function validateOne(event) {
         setTimeout(nextQuestion, 1500)
 
     }
+    
+    if (actualQuestion + 1 == numQuestions) {
+        document.querySelector("input#submitAnswers").style.display = "block"  
+    }
 
 }
 
 function nextQuestion() {
 
-    if (actualQuestion + 1 < 10) {
+    if (actualQuestion + 1 < numQuestions) {
         document.querySelector("#Q" + actualQuestion + "").toggleAttribute("hidden");
         document.querySelector("#Q" + (actualQuestion + 1) + "").toggleAttribute("hidden");
         actualQuestion++
     }
 
-    if (actualQuestion + 1 == 10) {
-        document.querySelector("input#submitAnswers").style.display = "block"
-        document.querySelector("#quizform").addEventListener("submit", validateQuiz)
-    }
 }
 
 //funcion para pasar al quiz
@@ -413,18 +335,20 @@ async function generarRanking() {
     const q = query(collection(db, "users"), orderBy("score", "desc"));
     const querySnapshot = await getDocs(q);
 
+    console.log(querySnapshot)
+
     //Inicializar tabla
     let tabla = `<p class="cerrar-ventana">X</p>
                 <h3>RANKINGS</h3>
                 <table>
                 <tr>
-                    <th>USERNAME</th>
+                    <th>NICK</th>
                     <th>SCORE</th>`;
-    // Pintar username y score
+    // Pintar nick y score
     querySnapshot.forEach((doc) => {
-        //console.log(doc.data().username, doc.data().score);
+        //console.log(doc.data().nick, doc.data().score);
         tabla += `<tr>
-                    <td>${doc.data().username}</td>
+                    <td>${doc.data().nick}</td>
                     <td>...${doc.data().score}</td>
                 </tr>`
     });
@@ -448,8 +372,6 @@ async function generarRanking() {
         document.getElementById("barchart-screen").toggleAttribute("hidden");
     })
 }
-
-
 
 async function aniadirChart() {
 
@@ -476,7 +398,7 @@ async function aniadirChart() {
     }
 
     querySnapshot.forEach((doc) => {
-        charlistData.labels.push(doc.data().username)
+        charlistData.labels.push(doc.data().nick)
         charlistData.series[0].push(doc.data().score)
     });
 
