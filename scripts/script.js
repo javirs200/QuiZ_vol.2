@@ -1,9 +1,12 @@
 /*SPA aplication all in one*/
+
+const parser = new DOMParser()
+
 //Autenticación
 
 // Ventana emergente al clickar en LOG IN
 let loginBtn = document.getElementById("login-btn");
-loginBtn.addEventListener("click", function() {
+loginBtn.addEventListener("click", function () {
     if (loginBtn.innerHTML == "LOG IN") {
         document.querySelector("#login-popup").toggleAttribute("hidden");
     }
@@ -11,7 +14,7 @@ loginBtn.addEventListener("click", function() {
 
 // Importar las funciones
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
 import { getFirestore, collection, query, where, doc, getDoc, getDocs, orderBy, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
 // Configuración de la app web
@@ -22,7 +25,7 @@ const firebaseConfig = {
     storageBucket: "quiz-volumen-2.appspot.com",
     messagingSenderId: "636391191506",
     appId: "1:636391191506:web:a62f7f34fc9357d02d0e0b"
-  };
+};
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
@@ -41,6 +44,7 @@ const errMsgPass = document.querySelector('.msgerr-pass');
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 const submitBtn = document.querySelector("input#submitAnswers");
+const spinnerContainer = document.getElementById('spinnerContainer');
 
 // SignUp function
 registerForm.addEventListener('submit', async (e) => {
@@ -52,6 +56,9 @@ registerForm.addEventListener('submit', async (e) => {
     const usersRef = collection(db, "users");
     console.log(signUpEmail);
     console.log(signUpPassword);
+
+    // Show spinnerContainer
+    spinnerContainer.style.display = 'block';
 
     // Validacion con Regex
     if (!emailRegex.test(signUpEmail)) {
@@ -65,16 +72,16 @@ registerForm.addEventListener('submit', async (e) => {
         try {
             //Create auth user
             await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
-            .then((userCredential) => { 
-            console.log('User registered')
-            const user = userCredential.user;
-            registerForm.reset();
-            document.querySelector("#login-popup").toggleAttribute("hidden");
-            })
+                .then((userCredential) => {
+                    console.log('User registered')
+                    const user = userCredential.user;
+                    registerForm.reset();
+                    document.querySelector("#login-popup").toggleAttribute("hidden");
+                })
             //Create document in DB
             await setDoc(doc(usersRef, signUpEmail), {
-            username: signUpUser,
-            email: signUpEmail
+                username: signUpUser,
+                email: signUpEmail
             })
         } catch (error) {
             const errorCode = error.code;
@@ -82,7 +89,8 @@ registerForm.addEventListener('submit', async (e) => {
             console.log('Código del error: ' + errorCode);
             console.log('Mensaje del error: ' + errorMessage);
         }
-}})
+    }
+})
 
 //Login function
 loginForm.addEventListener('submit', async (e) => {
@@ -90,64 +98,65 @@ loginForm.addEventListener('submit', async (e) => {
 
     const loginEmail = document.getElementById('login-email').value;
     const loginPassword = document.getElementById('login-pass').value;
-    
-    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-      .then((userCredential) => {
-        console.log('User authenticated')
-        const user = userCredential.user;
-        loginForm.reset();
-        document.querySelector("#login-popup").toggleAttribute("hidden");
-      })
-      .catch((error) => {
-          
-        errMsg[1].style.display = "block";
-        errMsg[1].innerHTML='Usuario o contraseña incorrectos';
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('Código del error: ' + errorCode);
-        console.log('Mensaje del error: ' + errorMessage);
 
-      });
+    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+        .then((userCredential) => {
+            console.log('User authenticated')
+            const user = userCredential.user;
+            loginForm.reset();
+            document.querySelector("#login-popup").toggleAttribute("hidden");
+        })
+        .catch((error) => {
+
+            errMsg[1].style.display = "block";
+            errMsg[1].innerHTML = 'Usuario o contraseña incorrectos';
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log('Código del error: ' + errorCode);
+            console.log('Mensaje del error: ' + errorMessage);
+
+        });
 })
 
 //Observe the user's state
 auth.onAuthStateChanged(user => {
-    if(user){
+    if (user) {
         loginBtn.innerHTML = "LOG OUT"
         console.log(auth.currentUser.email)
         //Logout function
         loginBtn.addEventListener('click', () => {
             signOut(auth).then(() => {
-            console.log('Logout user')
-            loginBtn.innerHTML = "LOG IN"
+                console.log('Logout user')
+                loginBtn.innerHTML = "LOG IN"
 
 
             }).catch((error) => {
-            console.log('Error: ', error)
+                console.log('Error: ', error)
             });
         })
-    }else{
-      console.log('No logged user');
+    } else {
+        console.log('No logged user');
     }
 })
 
 
 //global variables
-const questionsApiUrl = "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple"
+let numQuestions = 10;
+const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=31&difficulty=easy&type=multiple`
 
 let questionsBatch = {}
 
 //for iteration between screens
 let actualQuestion = 0;
 
-let validated = -1; 
+let validated = -1;
 
 let score = 0;
 
 //---- aux --------
 
 function reset() {
-    
+
     questionsBatch = {};
     score = 0;
     //used to folow the status
@@ -155,12 +164,12 @@ function reset() {
     validated = -1;
 
     //delete previous quiz
-    document.querySelector("section#quiz-screen").innerHTML= ""
+    document.querySelector("section#quiz-screen").innerHTML = ""
 
     //reset view to home hide all windows and popups except home
     let allScreensPopups = document.querySelectorAll('[id$="-screen"],[id$="-popup"]')
     for (const el of allScreensPopups) {
-        el.setAttribute("hidden","")
+        el.setAttribute("hidden", "")
     }
     document.querySelector("section#landing-screen").removeAttribute("hidden")
 
@@ -175,6 +184,48 @@ async function callApi() {
             return data;
         })
         .catch((error) => console.error("Error calling to api: ", error));//si llega aqui pasa algo con la api
+}
+
+async function translateQuestions(questionObjet) {
+
+    // console.log(questionObjet)
+
+    let q = questionObjet.question
+    let a = questionObjet.correct_answer
+    let i = questionObjet.incorrect_answers.slice().reduce((acc, curr , i) => {
+        if(i<2){
+            return acc + curr + "|"
+        }else{
+            return acc + curr
+        }}, "")
+
+    let all = q + "|" + a + "|" + i
+
+    let parsed = parser.parseFromString(all, "text/html").body.textContent
+
+    // console.log(parsed);
+    
+    // llamada a la api de traduccion
+    let url = `https://api.mymemory.translated.net/get?q=${parsed}&langpair=en|es&de=rafikex125@esterace.com`
+    let res = await fetch(url)
+    await res.json().then(data => {
+        
+        // volver a guardar las preguntas traducidas en el objeto
+        let array = data.responseData.translatedText.split("|")
+
+        // console.log(array);
+        
+        if (array.length != 5) {
+            console.log("Error en la traduccion")
+            console.log(array)
+        } else {
+            questionObjet.question = array[0]
+            questionObjet.correct_answer = array[1]
+            questionObjet.incorrect_answers = [array[2], array[3], array[4]]
+            // console.log(questionObjet)
+        }
+
+    })
 }
 
 //para mezcar un array
@@ -196,21 +247,22 @@ function generateRandomOrderHtml(questionObjet) {
 
     let tmpHtml = '';
     answers.forEach(answer => {
-        tmpHtml += `<label class='answer' for='${JSON.stringify(answer)}'>${JSON.stringify(answer)}</label>
-        <input type='radio' name='${JSON.stringify(answer)}' id='${JSON.stringify(answer)}' value='${JSON.stringify(answer)}' hidden></input>`;
+        tmpHtml += `<label class='answer' for="${answer}">${answer}</label>
+        <input type='radio' name="${answer}" id="${answer}" value="${answer}" hidden></input>`;
     });
 
     return tmpHtml;
 }
 
-
-
-function generateQuiz(questions) {
+async function generateQuiz(questions) {
     let section = document.querySelector("section#quiz-screen")
     let contentHtml = `<form id="quizform">`
     let cont = 0
     for (const questionObjet of questions.results) {
-        let q = JSON.stringify(questionObjet.question)
+
+        await translateQuestions(questionObjet)
+
+        let q = questionObjet.question
         contentHtml += `<fieldset class="contenedor-pregunta" id='Q${cont}' hidden><legend>${q}</legend>`
 
         //necesito una funcion que asigne esas lineas en orden aleatorio
@@ -230,19 +282,19 @@ function generateQuiz(questions) {
 function validateQuiz(event) {
     event.preventDefault();
     console.log(event.target);
-    
+
     //Guardar score en db si hay usuario logado
     auth.onAuthStateChanged(async user => {
-        if(user){
+        if (user) {
             console.log(auth.currentUser.email);
             console.log("user autenticado, quiz validado");
-            console.log("Tu score final es: " +score);
+            console.log("Tu score final es: " + score);
             await updateDoc(doc(db, "users", auth.currentUser.email), {
                 score: score
             });
-         
-        }else{
-          console.log('No logged user');
+
+        } else {
+            console.log('No logged user');
         }
     })
 
@@ -254,12 +306,12 @@ function validateQuiz(event) {
                                                         <button id="retry-btn" class="pixel2 btn-resultados">Intentar de nuevo</button>`
 
     document.querySelectorAll(".btn-resultados")[0].addEventListener("click", generarRanking)
-    document.getElementById("retry-btn").addEventListener("click",reset)
+    document.getElementById("retry-btn").addEventListener("click", reset)
 }
 
 function validateOne(event) {
 
-    if(validated < actualQuestion){
+    if (validated < actualQuestion) {
 
         let preguntaActual = questionsBatch.results[actualQuestion]
 
@@ -268,8 +320,8 @@ function validateOne(event) {
 
         let labelActual = event.target
         let labelCoorrecta = labelActual.parentElement
-                                .querySelector(`[id*='${preguntaActual.correct_answer}']`)
-                                .previousSibling.previousSibling
+            .querySelector(`[id*="${preguntaActual.correct_answer}"]`)
+            .previousSibling.previousSibling
 
         // #43f343 -> verde fosforito
         let verde = '#43f343'
@@ -292,8 +344,6 @@ function validateOne(event) {
 
     }
 
-    
-
 }
 
 function nextQuestion() {
@@ -304,20 +354,22 @@ function nextQuestion() {
         actualQuestion++
     }
 
-    if (actualQuestion + 1 == 10){
+    if (actualQuestion + 1 == 10) {
         document.querySelector("input#submitAnswers").style.display = "block"
         document.querySelector("#quizform").addEventListener("submit", validateQuiz)
-        }
- }
+    }
+}
 
 //funcion para pasar al quiz
 async function start() {
+
+    spinnerContainer.style.display = 'block';
 
     //aqui se hace una llamada a api
     questionsBatch = await callApi()
 
     //constrimos quiz con template string
-    generateQuiz(questionsBatch)
+    await generateQuiz(questionsBatch)
 
     let preguntas = document.querySelectorAll("label.answer")
     for (const p of preguntas) {
@@ -325,6 +377,8 @@ async function start() {
     }
 
     //operaciones visuales despues de tener las preguntas incorporadas 
+
+    spinnerContainer.style.display = 'none';
 
     document.querySelector("input#submitAnswers").style.display = "none"
 
@@ -372,10 +426,10 @@ async function generarRanking() {
         tabla += `<tr>
                     <td>${doc.data().username}</td>
                     <td>...${doc.data().score}</td>
-                </tr>` 
-      });
+                </tr>`
+    });
 
-      tabla += `    </tr>
+    tabla += `    </tr>
                 </table>
                 <button id="mostrar-grafica" class="pixel2">Ver gráfica</button>`;
 
@@ -384,12 +438,12 @@ async function generarRanking() {
     document.querySelector("section#ranking-screen").toggleAttribute("hidden");
 
     //Cerrar ranking
-    document.querySelectorAll(".cerrar-ventana")[0].addEventListener("click", function(){
+    document.querySelectorAll(".cerrar-ventana")[0].addEventListener("click", function () {
         document.querySelector("section#ranking-screen").toggleAttribute("hidden");
     })
 
     // Mostrar la gráfica
-    document.getElementById("mostrar-grafica").addEventListener("click", function(){
+    document.getElementById("mostrar-grafica").addEventListener("click", function () {
         aniadirChart();
         document.getElementById("barchart-screen").toggleAttribute("hidden");
     })
@@ -407,34 +461,35 @@ async function aniadirChart() {
     document.querySelector("section#barchart-screen").innerHTML += chartlist;
 
     // collect data for chartist
-    let charlistData = {labels:[],series:[[]]}
+    let charlistData = { labels: [], series: [[]] }
 
     let options = {
         axisX: {
             showLabel: true,
-            labelInterpolationFnc: function(value) {
-                return value.slice(0,3);
-              }
-        }, 
+            labelInterpolationFnc: function (value) {
+                return value.slice(0, 3);
+            }
+        },
         axisY: {
             onlyInteger: true
-        }}
+        }
+    }
 
     querySnapshot.forEach((doc) => {
         charlistData.labels.push(doc.data().username)
         charlistData.series[0].push(doc.data().score)
-      });
+    });
 
-    new Chartist.Bar('.ct-chart', charlistData,options);
-    
+    new Chartist.Bar('.ct-chart', charlistData, options);
+
     // Cerrar gráfica
-    document.querySelector("#cerrar-barras").addEventListener("click", function(){
+    document.querySelector("#cerrar-barras").addEventListener("click", function () {
         document.querySelector("#barchart-screen").toggleAttribute("hidden");
     })
 }
 
 
-document.getElementById("ranking-btn").addEventListener("click", ()=>{
+document.getElementById("ranking-btn").addEventListener("click", () => {
     generarRanking()
     // aniadirChart()
 })
