@@ -16,8 +16,15 @@ import { getFirestore, collection, query, where, doc, getDoc, getDocs, orderBy, 
 //     messagingSenderId: "251926133409",
 //     appId: "1:251926133409:web:b61118a8c9a130d4df0ee0"
 // }; 
-// cambiar en un por leer el env de github pages
-let env = await fetch('./env.json')
+// leer variables de entorno de github pages enviroment
+const firebaseConfig = {
+    apiKey: env.apiKey,
+    authDomain: env.authDomain,
+    projectId: env.projectId,
+    storageBucket: env.storageBucket,
+    messagingSenderId: env.messagingSenderId,
+    appId: env.appId
+}
 
 console.log(env);
 
