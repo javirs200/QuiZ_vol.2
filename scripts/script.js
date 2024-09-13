@@ -17,26 +17,33 @@ const firebaseConfig = {
     appId: "1:251926133409:web:b61118a8c9a130d4df0ee0"
 };
 
+
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
 // Inicializar DDBB
 const db = getFirestore(app);
 
+//objetos backup
+// preguntas anime por si falla la api
+const animeQuestions = {
+}
+
+// preguntas de videojuegos por si falla la api
+const videoGamesQuestions = {
+}
+
 // Selectores
-const registerForm = document.getElementById("register-form");
-const loginForm = document.getElementById('login-form');
-const errMsg = document.querySelectorAll('.msgerr');
-const errMsgPass = document.querySelector('.msgerr-pass');
-const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-const passRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-const submitBtn = document.querySelector("input#submitAnswers");
-const spinnerContainer = document.getElementById('spinnerContainer');
+
+const quizOptionsForm = document.querySelector("#quiz-options-form");
+const spinnerContainer = document.getElementById('spinner-container');
 const loadingTips = document.getElementById('loadingTips');
 
 //global variables
 const numQuestions = 10;
-const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=31&difficulty=easy&type=multiple`
+let difficulty = "easy";
+let category = "31";
+
 
 const loadingMessages = ["Cargando preguntas...",
     "Traduciendo preguntas...",
@@ -115,7 +122,9 @@ function reset() {
 }
 
 //api call obtengo batch de preguntas
-async function callApi() {
+async function fetchQuestions() {
+
+    const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
 
     return await fetch(questionsApiUrl)
         .then(res => res.json())
@@ -125,23 +134,26 @@ async function callApi() {
         .catch((error) => console.error("Error calling to api: ", error));//si llega aqui pasa algo con la api
 }
 
-async function translateQuestions(questionObjet) {
+async function translateQuestions(untraslatedQuestions) {
+    //preparar las preguntas en un solo string para traducir
+    let allQuestions = ""
+    for (const questionObjet of untraslatedQuestions.results) {
+        allQuestions += questionObjet.question + "|"
+            + questionObjet.correct_answer + "|"
+            + questionObjet.incorrect_answers.slice().reduce((acc, curr, i) => {
+                if (i < 2) {
+                    return acc + curr + "|"
+                } else {
+                    return acc + curr
+                }
+            }, "") + "|"
+    }
+    // delete the last pipe
+    allQuestions = allQuestions.slice(0, -1)
 
-    // console.log(questionObjet)
+    // console.log(allQuestions);
 
-    let q = questionObjet.question
-    let a = questionObjet.correct_answer
-    let i = questionObjet.incorrect_answers.slice().reduce((acc, curr, i) => {
-        if (i < 2) {
-            return acc + curr + "|"
-        } else {
-            return acc + curr
-        }
-    }, "")
-
-    let all = q + "|" + a + "|" + i
-
-    let parsed = parser.parseFromString(all, "text/html").body.textContent
+    let parsed = parser.parseFromString(allQuestions, "text/html").body.textContent
 
     // console.log(parsed);
 
@@ -156,19 +168,42 @@ async function translateQuestions(questionObjet) {
 
             // console.log(array);
 
-            if (array.length != 5) {
-                console.log("Error en la traduccion")
+            if (array.length != 5 * numQuestions) {
+                showPopupMessage("Error en la traducción de preguntas")
             } else {
-                questionObjet.question = array[0]
-                questionObjet.correct_answer = array[1]
-                questionObjet.incorrect_answers = [array[2], array[3], array[4]]
-                // console.log(questionObjet)
+                for (let i = 0; i < numQuestions; i++) {
+                    untraslatedQuestions.results[i].question = array[i * 5]
+                    untraslatedQuestions.results[i].correct_answer = array[i * 5 + 1]
+                    untraslatedQuestions.results[i].incorrect_answers = [array[i * 5 + 2], array[i * 5 + 3], array[i * 5 + 4]]
+                }
             }
-
         })
     } catch (error) {
-        console.log("Error en la traduccion")
+        showPopupMessage("Error en la traducción de preguntas")
+        console.log("Error en la traducción de preguntas")
     }
+}
+
+function showPopupMessage(message) {
+    let floatingDiv = document.createElement('div');
+        floatingDiv.textContent = message;
+        floatingDiv.style.position = 'fixed';
+        floatingDiv.style.top = '50%';
+        floatingDiv.style.left = '50%';
+        floatingDiv.style.transform = 'translate(-50%, -50%)';
+        floatingDiv.style.backgroundColor = '#00303b';
+        floatingDiv.style.color = '#8fb013';
+        floatingDiv.style.borderColor = 'red';
+        floatingDiv.style.borderStyle = 'solid';
+        floatingDiv.style.borderWidth = '5px';
+        floatingDiv.style.padding = '20px';
+        floatingDiv.style.borderRadius = '10px';
+        floatingDiv.style.zIndex = '1000';
+        document.body.appendChild(floatingDiv);
+
+        setTimeout(() => {
+            document.body.removeChild(floatingDiv);
+        }, 5000);
 }
 
 //para mezcar un array
@@ -203,8 +238,6 @@ async function generateQuiz(questions) {
     let cont = 0
     for (const questionObjet of questions.results) {
 
-        await translateQuestions(questionObjet)
-
         let q = questionObjet.question
         contentHtml += `<fieldset class="contenedor-pregunta" id='Q${cont}' hidden><legend>${q}</legend>`
 
@@ -214,7 +247,7 @@ async function generateQuiz(questions) {
         contentHtml += '</fieldset>'
         cont++
     }
-    contentHtml += `<input id='submitAnswers' type='submit' class='pixel2' value='Enviar y Ver Resultados'></input>`
+    contentHtml += `<input id='submitAnswers' type='submit' class='pixel2' value='Ver Resultados'></input>`
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 
@@ -241,6 +274,7 @@ function validateQuiz(event) {
                     </form>`
 
     // Pintar pantalla de resultados
+    
     document.getElementById("results-screen").toggleAttribute("hidden");
     document.getElementById("results-screen").innerHTML = contentHtml
 
@@ -290,6 +324,11 @@ function validateOne(event) {
 
     if (actualQuestion + 1 == numQuestions) {
         document.querySelector("input#submitAnswers").style.display = "block"
+
+        //wait 3 seconds and focus on the submit button smothly
+        setTimeout(() => {
+            document.querySelector("input#submitAnswers").focus({ preventScroll: false })
+        }, 3000);
     }
 
 }
@@ -309,14 +348,23 @@ async function start() {
 
     spinnerContainer.style.display = 'block';
 
+    //obtener valores de la categoria y dificultad
+    category = quizOptionsForm.querySelector("select#category").value
+
+    difficulty = quizOptionsForm.querySelector("select#difficulty").value
+
     //loading tips
-    var loadTimer = setInterval(function () {
+    setInterval(function () {
         let randomIndex = Math.floor(Math.random() * loadingMessages.length)
         loadingTips.innerHTML = loadingMessages[randomIndex]
-    }, 500);
+    }, 1000);
 
     //aqui se hace una llamada a api
-    questionsBatch = await callApi()
+    questionsBatch = await fetchQuestions()
+
+    console.log(questionsBatch)
+
+    await translateQuestions(questionsBatch)
 
     //constrimos quiz con template string
     await generateQuiz(questionsBatch)

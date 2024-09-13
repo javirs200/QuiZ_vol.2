@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,24 +14,40 @@
 </head>
 
 <body>
-    
+
     <nav>
         <ul id="nav-bar">
             <li><a href="#" id="home-btn">HOME</a></li>
             <li><a href="#" id="ranking-btn">RANKINGS</a></li>
         </ul>
     </nav>
-    
+
     <main>
         <section id="landing-screen">
-            <h2>¡Bienvenidos al 102938º quiz de ANIME !!! en todo el internet!</h2>
-            <p>¿Sabes más del mundo que la persona a tu lado? Compruébalo en solo 10 preguntas. <br>No olvides iniciar sesión para guardar tu puntuación</p>
+            <h2>¡Bienvenidos JapanWekend 2024!</h2>
+            <p>¿Sabes más que la persona a tu lado? Compruébalo en solo 10 preguntas. <br> <br> No olvides poner tu nick al terminar</p>
+            <form id="quiz-options-form">
+                <fieldset>
+                    <label for="difficulty">Dificultad:</label>
+                    <select class="formOption" id="difficulty" name="difficulty">
+                        <option value="easy">Fácil</option>
+                        <option value="medium">Medio</option>
+                        <option value="hard">Difícil</option>
+                    </select>
+                </fieldset>
+                <Fieldset>
+                    <label for="category">Temática:</label>
+                    <select id="category" class="formOption" name="category">
+                        <option value="31">Anime</option>
+                        <option value="15">Videojuegos</option>
+                    </select>
+                </Fieldset>
+            </form>
             <button class="quiz-start-btn pixel2">¡Comienza el quiz!</button>
-            <div id="spinnerContainer" style="display: none;">
+            <div id="spinner-container" style="display: none;">
                 <div id="spinner"></div>
                 <p id="loadingTips">Generando</p>
             </div>
-            
         </section>
 
         <section id="login-popup" hidden>
@@ -40,7 +57,7 @@
 
                     <label for="nick">Email: </label>
                     <input type="text" id="nick" name="nick" class="login-input">
-                    <p class="msg"></p>      
+                    <p class="msg"></p>
                     <p class="msgerr"></p>
                     <button type="submit" class="pixel2">Enviar</button>
                 </form>
@@ -57,7 +74,7 @@
         </section>
 
         <section id="barchart-screen" hidden>
-            <p id="cerrar-barras" class="cerrar-ventana">X</p>   
+            <p id="cerrar-barras" class="cerrar-ventana">X</p>
         </section>
     </main>
 
@@ -65,5 +82,5 @@
     <script src="./scripts/script.js" type="module"></script>
 
 </body>
-</html>
 
+</html>
