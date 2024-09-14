@@ -84,9 +84,15 @@ async function sendAndReset(event) {
     event.preventDefault();
     let nick = event.target.querySelector("input#nick").value
     // datos para enviar
-    let data = { nick: nick, score: score }
-    // console.log("datos para enviar -> ",data);
 
+    // si la categoria es 31 es a sino es v
+    let c = category == "31" ? "A" : "V";
+    
+    // si la dificultad es easy es F sino es M si no es D
+    let d = difficulty == "easy" ? "F" : difficulty == "medium" ? "M" : "D";
+
+    let data = { nick: nick, score: score , category: c, difficulty: d };
+    // console.log("datos para enviar -> ",data);
 
     // Comprobar si el usuario ya existe
 
@@ -265,8 +271,18 @@ function validateQuiz(event) {
     // pedir el nickname para asignar el score
     let contentHtml = `<form id="resultForm">`
 
+    contentHtml += `<H3>has acertado ${score} de 10 preguntas</H3>`
+
+    //calcular el incremento de puntuacion
+    let incremento = difficulty == "easy" ? 0 : difficulty == "medium" ?  5 : 10;
+
+    // etiqueta de dificultad en español
+    let dificultadHtml = difficulty == "easy" ? "Fácil" : difficulty == "medium" ? "Medio" : "Difícil";
+
+    contentHtml += `<h3>Has jugado en la categoría de ${category == "31" ? "Anime" : "Videojuegos"} y en la dificultad de ${dificultadHtml}</h3>`
+
     contentHtml += `<h3>Tu puntuación final es...</h3>
-                    <h3 id="score"> ${score} / 10</h3>
+                    <h3 id="score"> ${score} + ${incremento} = ${score + incremento}</h3>
                     <label for="nick">Introduce tu nickname:</label>
                     <input type="text" id="nick" name="nick" class="login-input" required>
                     <p class="msg"></p>      
@@ -274,12 +290,19 @@ function validateQuiz(event) {
                     <button type="submit" class="pixel2">Enviar</button>
                     </form>`
 
+    score += incremento
+
     // Pintar pantalla de resultados
 
     document.getElementById("results-screen").toggleAttribute("hidden");
     document.getElementById("results-screen").innerHTML = contentHtml
 
     document.getElementById("resultForm").addEventListener("submit", sendAndReset);
+
+    //focus on the input
+    setTimeout(() => {
+        document.getElementById("nick").focus({ preventScroll: false })
+    }, 2000);
 }
 
 function validateOne(event) {
@@ -435,13 +458,17 @@ async function generarRanking() {
                 <table>
                 <tr>
                     <th>NICK</th>
+                    <th>T</th>
+                    <th>D</th>
                     <th>SCORE</th>`;
     // Pintar nick y score
     querySnapshot.forEach((doc) => {
         //console.log(doc.data().nick, doc.data().score);
         tabla += `<tr>
                     <td>${doc.data().nick}</td>
-                    <td>...${doc.data().score}</td>
+                    <td>${doc.data().category}</td>
+                    <td>${doc.data().difficulty}</td>
+                    <td>${doc.data().score}</td>
                 </tr>`
     });
 
