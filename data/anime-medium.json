@@ -1,0 +1,94 @@
+{
+    "questions": [
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Death Note'?",
+            "correct_answer": "Light Yagami",
+            "incorrect_answers": [
+                "L",
+                "Misa Amane",
+                "Ryuk"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Edward Elric'?",
+            "correct_answer": "Fullmetal Alchemist",
+            "incorrect_answers": [
+                "Naruto",
+                "Bleach",
+                "One Piece"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Naruto'?",
+            "correct_answer": "Naruto Uzumaki",
+            "incorrect_answers": [
+                "Sasuke Uchiha",
+                "Kakashi Hatake",
+                "Sakura Haruno"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Tokyo Ghoul'?",
+            "correct_answer": "Ken Kaneki",
+            "incorrect_answers": [
+                "Touka Kirishima",
+                "Shuu Tsukiyama",
+                "Koutarou Amon"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Gon Freecss'?",
+            "correct_answer": "Hunter x Hunter",
+            "incorrect_answers": [
+                "One Piece",
+                "Bleach",
+                "Fairy Tail"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Blue Exorcist'?",
+            "correct_answer": "Rin Okumura",
+            "incorrect_answers": [
+                "Yukio Okumura",
+                "Shiemi Moriyama",
+                "Ryuji Suguro"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Black Clover'?",
+            "correct_answer": "Asta",
+            "incorrect_answers": [
+                "Yuno",
+                "Noelle Silva",
+                "Yami Sukehiro"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Natsu Dragneel'?",
+            "correct_answer": "Fairy Tail",
+            "incorrect_answers": [
+                "One Piece",
+                "Bleach",
+                "Naruto"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'My Hero Academia'?",
+            "correct_answer": "Izuku Midoriya",
+            "incorrect_answers": [
+                "Katsuki Bakugo",
+                "Shoto Todoroki",
+                "All Might"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'One Piece'?",
+            "correct_answer": "Monkey D. Luffy",
+            "incorrect_answers": [
+                "Roronoa Zoro",
+                "Sanji",
+                "Usopp"
+            ]
+        }
+    ]
+}

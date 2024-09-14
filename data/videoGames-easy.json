@@ -1,0 +1,94 @@
+{
+    "questions": [
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'The Legend of Zelda'?",
+            "correct_answer": "Link",
+            "incorrect_answers": [
+                "Zelda",
+                "Ganon",
+                "Sheik"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Super Mario'? ",
+            "correct_answer": "Mario",
+            "incorrect_answers": [
+                "Luigi",
+                "Bowser",
+                "Peach"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Master Chief'?",
+            "correct_answer": "Halo",
+            "incorrect_answers": [
+                "Call of Duty",
+                "Gears of War",
+                "Destiny"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Sonic the Hedgehog'?",
+            "correct_answer": "Sonic",
+            "incorrect_answers": [
+                "Tails",
+                "Knuckles",
+                "Shadow"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Pac-Man'?",
+            "correct_answer": "Pac-Man",
+            "incorrect_answers": [
+                "Blinky",
+                "Pinky",
+                "Inky"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Donkey Kong'?",
+            "correct_answer": "Donkey Kong",
+            "incorrect_answers": [
+                "Super Mario",
+                "Zelda",
+                "Metroid"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Metroid'?",
+            "correct_answer": "Samus Aran",
+            "incorrect_answers": [
+                "Link",
+                "Zelda",
+                "Mario"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Street Fighter'?",
+            "correct_answer": "Ryu",
+            "incorrect_answers": [
+                "Ken",
+                "Chun-Li",
+                "Guile"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Mega Man'?",
+            "correct_answer": "Mega Man",
+            "incorrect_answers": [
+                "Metroid",
+                "Castlevania",
+                "Contra"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Final Fantasy VII'?",
+            "correct_answer": "Cloud Strife",
+            "incorrect_answers": [
+                "Sephiroth",
+                "Tifa Lockhart",
+                "Barret Wallace"
+            ]
+        }
+    ]
+}

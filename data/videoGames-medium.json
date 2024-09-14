@@ -1,0 +1,94 @@
+{
+    "questions": [
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'The Witcher 3'?",
+            "correct_answer": "Geralt de Rivia",
+            "incorrect_answers": [
+                "Yennefer",
+                "Ciri",
+                "Triss"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Red Dead Redemption 2'?",
+            "correct_answer": "Arthur Morgan",
+            "incorrect_answers": [
+                "John Marston",
+                "Dutch van der Linde",
+                "Micah Bell"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Lara Croft'?",
+            "correct_answer": "Tomb Raider",
+            "incorrect_answers": [
+                "Uncharted",
+                "Assassin's Creed",
+                "Far Cry"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'BioShock'?",
+            "correct_answer": "Jack",
+            "incorrect_answers": [
+                "Andrew Ryan",
+                "Booker DeWitt",
+                "Elizabeth"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Assassin's Creed II'?",
+            "correct_answer": "Ezio Auditore",
+            "incorrect_answers": [
+                "Altair",
+                "Connor",
+                "Edward Kenway"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Kratos'?",
+            "correct_answer": "God of War",
+            "incorrect_answers": [
+                "Devil May Cry",
+                "Dark Souls",
+                "Bloodborne"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Metal Gear Solid'?",
+            "correct_answer": "Solid Snake",
+            "incorrect_answers": [
+                "Big Boss",
+                "Raiden",
+                "Otacon"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Half-Life'?",
+            "correct_answer": "Gordon Freeman",
+            "incorrect_answers": [
+                "Alyx Vance",
+                "Barney Calhoun",
+                "Eli Vance"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Dante'?",
+            "correct_answer": "Devil May Cry",
+            "incorrect_answers": [
+                "Bayonetta",
+                "God of War",
+                "Dark Souls"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Resident Evil 4'?",
+            "correct_answer": "Leon S. Kennedy",
+            "incorrect_answers": [
+                "Chris Redfield",
+                "Jill Valentine",
+                "Claire Redfield"
+            ]
+        }
+    ]
+}

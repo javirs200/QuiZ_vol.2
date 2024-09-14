@@ -374,8 +374,21 @@ async function start() {
 
         showPopupMessage("Error en la llamada a la api")
 
-        //si falla la api se usan las preguntas del fichhero
-        responseData = await fetch("./data/questions.json")
+        let responseData = {}
+
+        switch (category) {
+            case "31":
+                responseData = await fetch(`./data/anime-${difficulty}.json`)
+                break;
+
+            case "15":
+                responseData = await fetch(`./data/videoGames-${difficulty}.json`)
+                break;
+        
+            default:
+                responseData = await fetch(`./data/anime-${difficulty}.json`)
+                break;
+        }
         //parseamos el json
         questionsBatch = await responseData.json()
 

@@ -1,0 +1,94 @@
+{
+    "results": [
+        {
+            "question": "¿Quién es el protagonista de 'Naruto'?",
+            "correct_answer": "Naruto Uzumaki",
+            "incorrect_answers": [
+                "Sasuke Uchiha",
+                "Sakura Haruno",
+                "Kakashi Hatake"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Luffy'?",
+            "correct_answer": "One Piece",
+            "incorrect_answers": [
+                "Bleach",
+                "Naruto",
+                "Dragon Ball"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el espíritu que acompaña a Ichigo en 'Bleach'?",
+            "correct_answer": "Zangetsu",
+            "incorrect_answers": [
+                "Rukia",
+                "Renji",
+                "Byakuya"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Death Note'?",
+            "correct_answer": "Light Yagami",
+            "incorrect_answers": [
+                "L",
+                "Ryuk",
+                "Misa Amane"
+            ]
+        },
+        {
+            "question": "¿Qué tipo de criatura es 'Totoro' en 'Mi vecino Totoro'?",
+            "correct_answer": "Un espíritu del bosque",
+            "incorrect_answers": [
+                "Un gato",
+                "Un conejo",
+                "Un oso"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Fullmetal Alchemist'?",
+            "correct_answer": "Edward Elric",
+            "incorrect_answers": [
+                "Alphonse Elric",
+                "Roy Mustang",
+                "Winry Rockbell"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Goku'?",
+            "correct_answer": "Dragon Ball",
+            "incorrect_answers": [
+                "One Piece",
+                "Naruto",
+                "Bleach"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Attack on Titan'?",
+            "correct_answer": "Eren Yeager",
+            "incorrect_answers": [
+                "Levi Ackerman",
+                "Mikasa Ackerman",
+                "Armin Arlert"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Sword Art Online'?",
+            "correct_answer": "Kirito",
+            "incorrect_answers": [
+                "Asuna",
+                "Klein",
+                "Agil"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Saitama'?",
+            "correct_answer": "One Punch Man",
+            "incorrect_answers": [
+                "My Hero Academia",
+                "Attack on Titan",
+                "Tokyo Ghoul"
+            ]
+        }
+    ]
+}

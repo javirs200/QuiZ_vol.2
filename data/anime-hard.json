@@ -1,0 +1,94 @@
+{
+    "questions": [
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Steins;Gate'?",
+            "correct_answer": "Rintarou Okabe",
+            "incorrect_answers": [
+                "Kurisu Makise",
+                "Itaru Hashida",
+                "Mayuri Shiina"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Guts'?",
+            "correct_answer": "Berserk",
+            "incorrect_answers": [
+                "Claymore",
+                "Attack on Titan",
+                "Vinland Saga"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Code Geass'?",
+            "correct_answer": "Lelouch Lamperouge",
+            "incorrect_answers": [
+                "Suzaku Kururugi",
+                "C.C.",
+                "Kallen Stadtfeld"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Neon Genesis Evangelion'?",
+            "correct_answer": "Shinji Ikari",
+            "incorrect_answers": [
+                "Asuka Langley Soryu",
+                "Rei Ayanami",
+                "Gendo Ikari"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Spike Spiegel'?",
+            "correct_answer": "Cowboy Bebop",
+            "incorrect_answers": [
+                "Trigun",
+                "Samurai Champloo",
+                "Black Lagoon"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Samurai Champloo'?",
+            "correct_answer": "Mugen",
+            "incorrect_answers": [
+                "Jin",
+                "Fuu",
+                "Kagetoki Kariya"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Monster'?",
+            "correct_answer": "Dr. Kenzo Tenma",
+            "incorrect_answers": [
+                "Johan Liebert",
+                "Nina Fortner",
+                "Inspector Lunge"
+            ]
+        },
+        {
+            "question": "¿En qué anime aparece el personaje 'Vash the Stampede'?",
+            "correct_answer": "Trigun",
+            "incorrect_answers": [
+                "Cowboy Bebop",
+                "Samurai Champloo",
+                "Black Lagoon"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Paranoia Agent'?",
+            "correct_answer": "Shounen Bat",
+            "incorrect_answers": [
+                "Keiichi Ikari",
+                "Mitsuo Kawazu",
+                "Tsukiko Sagi"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Ergo Proxy'?",
+            "correct_answer": "Re-l Mayer",
+            "incorrect_answers": [
+                "Vincent Law",
+                "Pino",
+                "Raul Creed"
+            ]
+        }
+    ]
+}

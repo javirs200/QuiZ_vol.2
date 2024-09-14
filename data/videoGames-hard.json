@@ -1,0 +1,94 @@
+{
+    "questions": [
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Dark Souls'?",
+            "correct_answer": "El no-muerto elegido",
+            "incorrect_answers": [
+                "Artorias",
+                "Solaire",
+                "Gwyn"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Bloodborne'?",
+            "correct_answer": "El cazador",
+            "incorrect_answers": [
+                "Gehrman",
+                "Eileen",
+                "Djura"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Commander Shepard'?",
+            "correct_answer": "Mass Effect",
+            "incorrect_answers": [
+                "Halo",
+                "Destiny",
+                "StarCraft"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Persona 5'?",
+            "correct_answer": "Joker",
+            "incorrect_answers": [
+                "Ryuji",
+                "Yusuke",
+                "Morgana"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Nier: Automata'?",
+            "correct_answer": "2B",
+            "incorrect_answers": [
+                "9S",
+                "A2",
+                "Pod 042"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Geralt de Rivia'?",
+            "correct_answer": "The Witcher",
+            "incorrect_answers": [
+                "Skyrim",
+                "Dragon Age",
+                "Dark Souls"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'Sekiro: Shadows Die Twice'?",
+            "correct_answer": "Wolf",
+            "incorrect_answers": [
+                "Isshin",
+                "Genichiro",
+                "Emma"
+            ]
+        },
+        {
+            "question": "¿Cómo se llama el protagonista de 'Hollow Knight'?",
+            "correct_answer": "El caballero",
+            "incorrect_answers": [
+                "Hornet",
+                "Zote",
+                "Quirrel"
+            ]
+        },
+        {
+            "question": "¿En qué videojuego aparece el personaje 'Arthur Morgan'?",
+            "correct_answer": "Red Dead Redemption 2",
+            "incorrect_answers": [
+                "Grand Theft Auto V",
+                "The Last of Us",
+                "Far Cry 5"
+            ]
+        },
+        {
+            "question": "¿Cuál es el nombre del protagonista de 'The Last of Us'?",
+            "correct_answer": "Joel",
+            "incorrect_answers": [
+                "Ellie",
+                "Tommy",
+                "David"
+            ]
+        }
+    ]
+}
