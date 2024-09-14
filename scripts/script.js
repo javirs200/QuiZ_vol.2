@@ -363,9 +363,12 @@ async function start() {
     //aqui se hace una llamada a api
     try {
 
-        questionsBatch = await fetchQuestions()
+        // test exception
+        throw new Error("Error en la llamada a la api")
 
-        await translateQuestions(questionsBatch)
+        // questionsBatch = await fetchQuestions()
+
+        // await translateQuestions(questionsBatch)
 
     } catch (error) {
 
