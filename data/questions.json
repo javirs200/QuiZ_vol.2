@@ -1,0 +1,125 @@
+{
+    "response_code": 0,
+    "results": [
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "What is the theme song of &quot;Neon Genesis Evangelion&quot;?",
+            "correct_answer": "A Cruel Angel&#039;s Thesis",
+            "incorrect_answers": [
+                "Stardust Crusaders",
+                "Requiem for a Dream",
+                "God Knows"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "What was Ash Ketchum&#039;s second Pokemon?",
+            "correct_answer": "Caterpie",
+            "incorrect_answers": [
+                "Charmander",
+                "Pikachu",
+                "Pidgey"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "In &quot;The Melancholy of Haruhi Suzumiya&quot; series, the SOS Brigade club leader is unknowingly treated as a(n) __ by her peers.",
+            "correct_answer": "God",
+            "incorrect_answers": [
+                "Alien",
+                "Time Traveler",
+                "Esper"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "The characters of &quot;Log Horizon&quot; are trapped in what game?",
+            "correct_answer": "Elder Tale",
+            "incorrect_answers": [
+                "Sword Art Online",
+                "Tower Unite",
+                "Yggdrasil"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "In &quot;A Certain Scientific Railgun&quot;, how many &quot;sisters&quot; did Accelerator have to kill to achieve the rumored level 6?",
+            "correct_answer": "20,000",
+            "incorrect_answers": [
+                "128",
+                "10,000",
+                "5,000"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "In the anime Noragami who is one of the main protagonists?",
+            "correct_answer": "Yukine",
+            "incorrect_answers": [
+                "Karuha",
+                "Mineha",
+                "Mayu"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "What is the name of the stuffed lion in Bleach?",
+            "correct_answer": "Kon",
+            "incorrect_answers": [
+                "Jo",
+                "Urdiu",
+                "Chad"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "In &quot;Future Diary&quot;, what is the name of Yuno Gasai&#039;s Phone Diary?",
+            "correct_answer": "Yukiteru Diary",
+            "incorrect_answers": [
+                "Murder Diary",
+                "Escape Diary ",
+                "Justice Diary "
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "What is the name of JoJo&#039;s Bizarre Adventure Part 5?",
+            "correct_answer": "Vento Aureo",
+            "incorrect_answers": [
+                "Vento Oreo",
+                "Vanto Aureo",
+                "Vento Eureo"
+            ]
+        },
+        {
+            "type": "multiple",
+            "difficulty": "easy",
+            "category": "Entertainment: Japanese Anime &amp; Manga",
+            "question": "In the anime Seven Deadly Sins what is the name of one of the sins?",
+            "correct_answer": "Diane",
+            "incorrect_answers": [
+                "Sakura",
+                "Ayano",
+                "Sheska"
+            ]
+        }
+    ]
+}

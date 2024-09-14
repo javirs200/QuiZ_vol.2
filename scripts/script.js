@@ -1,13 +1,10 @@
 /*SPA aplication all in one*/
 
-const parser = new DOMParser()
-
-// Importar las funciones
+// Importar las funciones de Firebase que necesitamoss
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-// import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
-import { getFirestore, collection, query, where, doc, addDoc, getDoc, getDocs, orderBy, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
+import { getFirestore, collection, query, where, addDoc, getDocs, orderBy, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
 
-// Configuración de la app web 
+// Configuración de FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyDKZ2_jFSY1zp4en-k9kuTNyOJbT_w9YoM",
     authDomain: "japanquiz-9f25a.firebaseapp.com",
@@ -17,34 +14,15 @@ const firebaseConfig = {
     appId: "1:251926133409:web:b61118a8c9a130d4df0ee0"
 };
 
-
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
 // Inicializar DDBB
 const db = getFirestore(app);
 
-//objetos backup
-// preguntas anime por si falla la api
-const animeQuestions = {
-}
+//---- datos ----
 
-// preguntas de videojuegos por si falla la api
-const videoGamesQuestions = {
-}
-
-// Selectores
-
-const quizOptionsForm = document.querySelector("#quiz-options-form");
-const spinnerContainer = document.getElementById('spinner-container');
-const loadingTips = document.getElementById('loadingTips');
-
-//global variables
-const numQuestions = 10;
-let difficulty = "easy";
-let category = "31";
-
-
+// mensajes de carga
 const loadingMessages = ["Cargando preguntas...",
     "Traduciendo preguntas...",
     "Cargando interfaz...",
@@ -54,17 +32,54 @@ const loadingMessages = ["Cargando preguntas...",
     "Arrancando Central Nucelar...",
     "Cargando..."];
 
+//---- variables ----
+// quiz options
+const numQuestions = 10;
+let difficulty = "easy";
+let category = "31";
+
+//batch of questions
 let questionsBatch = {}
 
 //for iteration between screens
 let actualQuestion = 0;
-
+// global variable to control with question is validated
 let validated = -1;
 
+//score
 let score = 0;
 
-//---- aux --------
+//---- DOM elements ----
+const parser = new DOMParser()
+// Selectores
+const quizOptionsForm = document.querySelector("#quiz-options-form");
+const spinnerContainer = document.getElementById('spinner-container');
+const loadingTips = document.getElementById('loadingTips');
 
+//---- functions ----
+
+//resetear la aplicacion
+function reset() {
+
+    questionsBatch = {};
+    score = 0;
+    //used to folow the status
+    actualQuestion = 0;
+    validated = -1;
+
+    //delete previous quiz
+    document.querySelector("section#quiz-screen").innerHTML = ""
+
+    //reset view to home hide all windows and popups except home
+    let allScreensPopups = document.querySelectorAll('[id$="-screen"],[id$="-popup"]')
+    for (const el of allScreensPopups) {
+        el.setAttribute("hidden", "")
+    }
+    document.querySelector("section#landing-screen").removeAttribute("hidden")
+
+}
+
+// Enviar datos a Firestore y resetear la aplicación
 async function sendAndReset(event) {
     event.preventDefault();
     let nick = event.target.querySelector("input#nick").value
@@ -101,27 +116,9 @@ async function sendAndReset(event) {
     reset()
 }
 
-function reset() {
+// - funciones que llaman a apis -
 
-    questionsBatch = {};
-    score = 0;
-    //used to folow the status
-    actualQuestion = 0;
-    validated = -1;
-
-    //delete previous quiz
-    document.querySelector("section#quiz-screen").innerHTML = ""
-
-    //reset view to home hide all windows and popups except home
-    let allScreensPopups = document.querySelectorAll('[id$="-screen"],[id$="-popup"]')
-    for (const el of allScreensPopups) {
-        el.setAttribute("hidden", "")
-    }
-    document.querySelector("section#landing-screen").removeAttribute("hidden")
-
-}
-
-//api call obtengo batch de preguntas
+// api de preguntas
 async function fetchQuestions() {
 
     const questionsApiUrl = `https://opentdb.com/api.php?amount=${numQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
@@ -134,6 +131,7 @@ async function fetchQuestions() {
         .catch((error) => console.error("Error calling to api: ", error));//si llega aqui pasa algo con la api
 }
 
+// api de traduccion
 async function translateQuestions(untraslatedQuestions) {
     //preparar las preguntas en un solo string para traducir
     let allQuestions = ""
@@ -184,26 +182,29 @@ async function translateQuestions(untraslatedQuestions) {
     }
 }
 
+//---- funciones de utilidad ----
+
+//funcion para mostrar mensajes emergentes
 function showPopupMessage(message) {
     let floatingDiv = document.createElement('div');
-        floatingDiv.textContent = message;
-        floatingDiv.style.position = 'fixed';
-        floatingDiv.style.top = '50%';
-        floatingDiv.style.left = '50%';
-        floatingDiv.style.transform = 'translate(-50%, -50%)';
-        floatingDiv.style.backgroundColor = '#00303b';
-        floatingDiv.style.color = '#8fb013';
-        floatingDiv.style.borderColor = 'red';
-        floatingDiv.style.borderStyle = 'solid';
-        floatingDiv.style.borderWidth = '5px';
-        floatingDiv.style.padding = '20px';
-        floatingDiv.style.borderRadius = '10px';
-        floatingDiv.style.zIndex = '1000';
-        document.body.appendChild(floatingDiv);
+    floatingDiv.textContent = message;
+    floatingDiv.style.position = 'fixed';
+    floatingDiv.style.top = '50%';
+    floatingDiv.style.left = '50%';
+    floatingDiv.style.transform = 'translate(-50%, -50%)';
+    floatingDiv.style.backgroundColor = '#00303b';
+    floatingDiv.style.color = '#8fb013';
+    floatingDiv.style.borderColor = 'red';
+    floatingDiv.style.borderStyle = 'solid';
+    floatingDiv.style.borderWidth = '5px';
+    floatingDiv.style.padding = '20px';
+    floatingDiv.style.borderRadius = '10px';
+    floatingDiv.style.zIndex = '1000';
+    document.body.appendChild(floatingDiv);
 
-        setTimeout(() => {
-            document.body.removeChild(floatingDiv);
-        }, 5000);
+    setTimeout(() => {
+        document.body.removeChild(floatingDiv);
+    }, 5000);
 }
 
 //para mezcar un array
@@ -232,6 +233,7 @@ function generateRandomOrderHtml(questionObjet) {
     return tmpHtml;
 }
 
+//funcion para generar el quiz
 async function generateQuiz(questions) {
     let section = document.querySelector("section#quiz-screen")
     let contentHtml = `<form id="quizform">`
@@ -254,8 +256,7 @@ async function generateQuiz(questions) {
     document.querySelector("#quizform").addEventListener("submit", validateQuiz)
 }
 
-// Validación de quiz - Almacenar score en Firestore
-// submitBtn.addEventListener("submit", validateQuiz)
+
 
 function validateQuiz(event) {
     event.preventDefault();
@@ -274,7 +275,7 @@ function validateQuiz(event) {
                     </form>`
 
     // Pintar pantalla de resultados
-    
+
     document.getElementById("results-screen").toggleAttribute("hidden");
     document.getElementById("results-screen").innerHTML = contentHtml
 
@@ -360,11 +361,24 @@ async function start() {
     }, 1000);
 
     //aqui se hace una llamada a api
-    questionsBatch = await fetchQuestions()
+    try {
 
-    console.log(questionsBatch)
+        questionsBatch = await fetchQuestions()
 
-    await translateQuestions(questionsBatch)
+        await translateQuestions(questionsBatch)
+
+    } catch (error) {
+
+        showPopupMessage("Error en la llamada a la api")
+
+        //si falla la api se usan las preguntas del fichhero
+        responseData = await fetch("./data/questions.json")
+        //parseamos el json
+        questionsBatch = await responseData.json()
+
+    }
+
+    console.log(questionsBatch);
 
     //constrimos quiz con template string
     await generateQuiz(questionsBatch)
@@ -388,20 +402,6 @@ async function start() {
     document.querySelector("section#quiz-screen").toggleAttribute("hidden")
 
 }
-
-// ------ events -------
-
-window.addEventListener("load", () => {
-
-    //start click
-    document.querySelector("button.quiz-start-btn")
-        .addEventListener("click", start)
-
-    document.querySelector("#home-btn")
-        .addEventListener("click", reset)
-
-
-})
 
 // Funcion de generacion de rankings
 
@@ -487,8 +487,23 @@ async function aniadirChart() {
 }
 
 
+// ------ events -------
+
 document.getElementById("ranking-btn").addEventListener("click", () => {
     generarRanking()
     // aniadirChart()
 })
 
+// main event , entry point
+
+window.addEventListener("load", () => {
+
+    //start click
+    document.querySelector("button.quiz-start-btn")
+        .addEventListener("click", start)
+
+    document.querySelector("#home-btn")
+        .addEventListener("click", reset)
+
+
+})
