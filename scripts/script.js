@@ -363,16 +363,16 @@ async function start() {
     //aqui se hace una llamada a api
     try {
 
-        // test exception
-        throw new Error("Error en la llamada a la api")
+        // // test exception
+        // throw new Error("Error en la llamada a la api")
 
-        // questionsBatch = await fetchQuestions()
+        questionsBatch = await fetchQuestions()
 
-        // await translateQuestions(questionsBatch)
+        await translateQuestions(questionsBatch)
 
     } catch (error) {
 
-        showPopupMessage("Error en la llamada a la api")
+        // showPopupMessage("Error en la llamada a la api")
 
         let responseData = {}
 
@@ -394,7 +394,7 @@ async function start() {
 
     }
 
-    console.log(questionsBatch);
+    // console.log(questionsBatch);
 
     //constrimos quiz con template string
     await generateQuiz(questionsBatch)
