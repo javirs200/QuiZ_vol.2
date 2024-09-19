@@ -230,52 +230,6 @@ div#spinner-container {
   z-index: -1;
 }
 
-
-/* Ventana de registro/login */
-#login-popup {
-  background-color: #8fb013;
-  border: #00303b solid 3px;
-
-  width: 80%;
-
-  position: absolute;
-  top: 2px;
-  left: 10%;
-
-  z-index: 10;
-}
-
-#register-form,
-#login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.login-input {
-  background-color: #8fb013;
-  color: #00303b;
-
-  border: #00303b 3px solid;
-
-  height: 25px;
-  width: 80%;
-}
-
-.login-input:focus {
-  background-color: #b2dd16;
-
-  border: #036075;
-}
-
-.msgerr,
-.msgerr-pass {
-  text-align: center;
-  font-size: 0.8em;
-  display: none;
-}
-
-
 /* PANTALLA DE PUNTUACIÓN */
 
 #results-screen {
