@@ -56,6 +56,9 @@ const quizOptionsForm = document.querySelector("#quiz-options-form");
 const spinnerContainer = document.getElementById('spinner-container');
 const loadingTips = document.getElementById('loadingTips');
 
+const verde = '#43f343'
+const rojo = "#ff0000"
+
 //---- functions ----
 
 //resetear la aplicacion
@@ -319,9 +322,6 @@ function validateOne(event) {
                 .querySelector(`[id*="${preguntaActual.correct_answer}"]`)
                 .previousSibling.previousSibling
 
-            // #43f343 -> verde fosforito
-            let verde = '#43f343'
-            let rojo = "#ff0000"
             if (v == preguntaActual.correct_answer) {
                 score++
                 labelActual.style.background = verde
