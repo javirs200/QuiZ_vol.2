@@ -289,7 +289,6 @@ function validateQuiz(event) {
                     <label for="nick">Introduce tu nickname:</label>
                     <input type="text" id="nick" name="nick" class="nick-input" maxlength=10 required>
                     <p class="msg"></p>      
-                    <p class="msgerr"></p>
                     <button type="submit" class="pixel2">Enviar</button>
                     </form>`
 
