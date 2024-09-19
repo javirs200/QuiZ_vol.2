@@ -90,11 +90,11 @@ async function sendAndReset(event) {
 
     // si la categoria es 31 es a sino es v
     let c = category == "31" ? "A" : "V";
-    
+
     // si la dificultad es easy es F sino es M si no es D
     let d = difficulty == "easy" ? "F" : difficulty == "medium" ? "M" : "D";
 
-    let data = { nick: nick, score: score , category: c, difficulty: d };
+    let data = { nick: nick, score: score, category: c, difficulty: d };
     // console.log("datos para enviar -> ",data);
 
     // Comprobar si el usuario ya existe
@@ -265,8 +265,6 @@ async function generateQuiz(questions) {
     document.querySelector("#quizform").addEventListener("submit", validateQuiz)
 }
 
-
-
 function validateQuiz(event) {
     event.preventDefault();
     // console.log(event.target);
@@ -277,7 +275,7 @@ function validateQuiz(event) {
     contentHtml += `<H3>has acertado ${score} de 10 preguntas</H3>`
 
     //calcular el incremento de puntuacion
-    let incremento = difficulty == "easy" ? 0 : difficulty == "medium" ?  5 : 10;
+    let incremento = difficulty == "easy" ? 0 : difficulty == "medium" ? 5 : 10;
 
     // etiqueta de dificultad en español
     let dificultadHtml = difficulty == "easy" ? "Fácil" : difficulty == "medium" ? "Medio" : "Difícil";
@@ -406,7 +404,7 @@ async function start() {
             case "15":
                 responseData = await fetch(`./data/videoGames-${difficulty}.json`)
                 break;
-        
+
             default:
                 responseData = await fetch(`./data/anime-${difficulty}.json`)
                 break;
