@@ -251,6 +251,23 @@ div#spinner-container {
 
 }
 
+.nick-input {
+  background-color: #8fb013;
+  color: #00303b;
+
+  border: #00303b 3px solid;
+
+  height: 25px;
+  width: 80%;
+}
+
+.nick-input:focus {
+  background-color: #8fb013;
+  color: #00303b;
+
+  border: #00303b 3px solid;
+}
+
 .btn-resultados {
   font-size: 1rem;
   width: 50%;

@@ -284,7 +284,7 @@ function validateQuiz(event) {
     contentHtml += `<h3>Tu puntuación final es...</h3>
                     <h3 id="score"> ${score} + ${incremento} = ${score + incremento}</h3>
                     <label for="nick">Introduce tu nickname:</label>
-                    <input type="text" id="nick" name="nick" class="login-input" required>
+                    <input type="text" id="nick" name="nick" class="nick-input" maxlength=10 required>
                     <p class="msg"></p>      
                     <p class="msgerr"></p>
                     <button type="submit" class="pixel2">Enviar</button>
