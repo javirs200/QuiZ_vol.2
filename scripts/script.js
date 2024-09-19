@@ -464,7 +464,7 @@ async function generarRanking() {
     querySnapshot.forEach((doc) => {
         //console.log(doc.data().nick, doc.data().score);
         tabla += `<tr>
-                    <td>${doc.data().nick}</td>
+                    <td>${JSON.stringify(doc.data().nick).substring(1, 4) + "..."}</td>
                     <td>${doc.data().category}</td>
                     <td>${doc.data().difficulty}</td>
                     <td>${doc.data().score}</td>
