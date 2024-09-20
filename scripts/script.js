@@ -34,7 +34,7 @@ const loadingMessages = ["Cargando preguntas...",
 
 //---- variables ----
 // quiz options
-const numQuestions = 10;
+const numQuestions = 1;
 let difficulty = "easy";
 let category = "31";
 
@@ -52,9 +52,15 @@ let score = 0;
 //---- DOM elements ----
 const parser = new DOMParser()
 // Selectores
-const quizOptionsForm = document.querySelector("#quiz-options-form");
+const quizOptionsForm = document.getElementById("quiz-options-form");
 const spinnerContainer = document.getElementById('spinner-container');
 const loadingTips = document.getElementById('loadingTips');
+
+//pantallas
+const resultsScreen = document.getElementById("results-screen");
+const authorScreen = document.getElementById('author-screen');
+const landingScreen = document.getElementById("landing-screen");
+const quizScreen = document.getElementById("quiz-screen");
 
 const verde = '#43f343'
 const rojo = "#ff0000"
@@ -78,12 +84,11 @@ function reset() {
     for (const el of allScreensPopups) {
         el.setAttribute("hidden", "")
     }
-    document.querySelector("section#landing-screen").removeAttribute("hidden")
-
+    landingScreen.removeAttribute("hidden")
 }
 
 // Enviar datos a Firestore y resetear la aplicación
-async function sendAndReset(event) {
+async function submitAndResetForm(event) {
     event.preventDefault();
     let nick = event.target.querySelector("input#nick").value
     // datos para enviar
@@ -122,7 +127,10 @@ async function sendAndReset(event) {
         await addDoc(collection(db, "users"), data).then(() => { alert("Usuario creado") });
     }
 
-    reset()
+    //mostrar pantalla de autor
+    quizScreen.hidden = true;
+    authorScreen.hidden = false;
+    resultsScreen.hidden = true;
 }
 
 // - funciones que llaman a apis -
@@ -262,7 +270,7 @@ async function generateQuiz(questions) {
     contentHtml += "</form>"
     section.innerHTML += contentHtml;
 
-    document.querySelector("#quizform").addEventListener("submit", validateQuiz)
+    document.getElementById("quizform").addEventListener("submit", validateQuiz)
 }
 
 function validateQuiz(event) {
@@ -292,12 +300,13 @@ function validateQuiz(event) {
 
     score += incremento
 
+
     // Pintar pantalla de resultados
 
-    document.getElementById("results-screen").toggleAttribute("hidden");
-    document.getElementById("results-screen").innerHTML = contentHtml
+    resultsScreen.hidden = false
+    resultsScreen.innerHTML = contentHtml
 
-    document.getElementById("resultForm").addEventListener("submit", sendAndReset);
+    document.getElementById("resultForm").addEventListener("submit", submitAndResetForm);
 
     //focus on the input
     setTimeout(() => {
@@ -363,6 +372,7 @@ function nextQuestion() {
     }
 
 }
+
 
 //funcion para pasar al quiz
 async function start() {
@@ -433,10 +443,9 @@ async function start() {
     document.querySelector("#Q0").toggleAttribute("hidden");
 
     //oculto landing
-    document.querySelector("section#landing-screen").toggleAttribute("hidden")
+    landingScreen.hidden = true
     //muestro quiz
-    document.querySelector("section#quiz-screen").toggleAttribute("hidden")
-
+    quizScreen.hidden = false
 }
 
 // Funcion de generacion de rankings
@@ -496,7 +505,7 @@ async function aniadirChart() {
     const querySnapshot = await getDocs(q);
 
     let chartlist = '<div class="ct-chart ct-perfect-fourth"></div>';
-    document.querySelector("section#barchart-screen").innerHTML += chartlist;
+    document.querySelector("section#barchart-screen").innerHTML = chartlist;
 
     // collect data for chartist
     let charlistData = { labels: [], series: [[]] }
@@ -529,11 +538,6 @@ async function aniadirChart() {
 
 // ------ events -------
 
-document.getElementById("ranking-btn").addEventListener("click", () => {
-    generarRanking()
-    // aniadirChart()
-})
-
 // main event , entry point
 
 window.addEventListener("load", () => {
@@ -545,5 +549,13 @@ window.addEventListener("load", () => {
     document.querySelector("#home-btn")
         .addEventListener("click", reset)
 
+    document.getElementById("reset-btn").addEventListener("click", () => {
+        authorScreen.hidden = true;
+        reset();
+    })
+
+    document.getElementById("ranking-btn").addEventListener("click", () => {
+        generarRanking()
+    })
 
 })
