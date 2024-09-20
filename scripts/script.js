@@ -117,14 +117,14 @@ async function submitAndResetForm(event) {
             if (score > doc.data().score) {
                 updateDoc(doc.ref, {
                     score: score
-                }).then(() => { alert("Score actualizado") });
+                }).then(() => { showPopupMessage("Score actualizado",false) });
             } else {
-                alert("Tu score no ha sido suficiente para superar tu record anterior");
+                showPopupMessage("Tu score no ha sido suficiente para superar tu record anterior",true);
             }
         });
     } else {
         // Crear un nuevo usuario si no existe
-        await addDoc(collection(db, "users"), data).then(() => { alert("Usuario creado") });
+        await addDoc(collection(db, "users"), data).then(() => { showPopupMessage("Puntuacion añadida al ranking",false) });
     }
 
     //mostrar pantalla de autor
@@ -184,7 +184,7 @@ async function translateQuestions(untraslatedQuestions) {
             // console.log(array);
 
             if (array.length != 5 * numQuestions) {
-                showPopupMessage("Error en la traducción de preguntas")
+                showPopupMessage("Error en la traducción de preguntas", true)
             } else {
                 for (let i = 0; i < numQuestions; i++) {
                     untraslatedQuestions.results[i].question = array[i * 5]
@@ -194,34 +194,45 @@ async function translateQuestions(untraslatedQuestions) {
             }
         })
     } catch (error) {
-        showPopupMessage("Error en la traducción de preguntas")
+        showPopupMessage("Error en la traducción de preguntas", true)
         console.log("Error en la traducción de preguntas")
     }
 }
 
 //---- funciones de utilidad ----
 
-//funcion para mostrar mensajes emergentes
-function showPopupMessage(message) {
+/**funcion para mostrar mensajes emergentes
+* @param {string} message - mensaje a mostrar
+* @param {boolean} isError - si es un mensaje de error o no
+*/
+function showPopupMessage(message,isError = false) {
     let floatingDiv = document.createElement('div');
     floatingDiv.textContent = message;
     floatingDiv.style.position = 'fixed';
     floatingDiv.style.top = '50%';
     floatingDiv.style.left = '50%';
     floatingDiv.style.transform = 'translate(-50%, -50%)';
-    floatingDiv.style.backgroundColor = '#00303b';
-    floatingDiv.style.color = '#8fb013';
-    floatingDiv.style.borderColor = 'red';
     floatingDiv.style.borderStyle = 'solid';
     floatingDiv.style.borderWidth = '5px';
     floatingDiv.style.padding = '20px';
     floatingDiv.style.borderRadius = '10px';
     floatingDiv.style.zIndex = '1000';
+
+    if (isError) {
+        floatingDiv.style.backgroundColor = '#00303b';
+        floatingDiv.style.color = '#8fb013';
+        floatingDiv.style.borderColor = 'red';
+    } else {
+        floatingDiv.style.backgroundColor = '#8fb013';
+        floatingDiv.style.color = '#00303b';
+        floatingDiv.style.borderColor = 'green';
+    }
+
     document.body.appendChild(floatingDiv);
 
     setTimeout(() => {
         document.body.removeChild(floatingDiv);
-    }, 5000);
+    }, 3000);
 }
 
 //para mezcar un array
@@ -342,7 +353,7 @@ function validateOne(event) {
         } catch (error) {
             labelActual.style.background = verde
             labelActual.style.color = verde
-            alert("Error en la validacion , Pregunta dada por correcta")
+            showPopupMessage("Error en la validacion , Pregunta dada por correcta", true)
             score++
         }
 
