@@ -34,7 +34,7 @@ const loadingMessages = ["Cargando preguntas...",
 
 //---- variables ----
 // quiz options
-const numQuestions = 1;
+const numQuestions = 10;
 let difficulty = "easy";
 let category = "31";
 
